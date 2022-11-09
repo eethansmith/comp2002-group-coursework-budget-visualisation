@@ -4,16 +4,23 @@ stages:
   - build
   - test
 
+cache:
+  - key:
+        files:
+          - package-lock.json
+    paths:
+        - node_modules/
+    policy: pull
+
+script:
+  - npm ci --cache .npm --prefer-offline
+
 install_dependencies:
   stage: build
   script: 
     - npm install
     # - npm run type:check
     - echo "Build successful"
-
-  cache:
-    paths:
-      - node_modules/
 
   # artifacts:
   #   expire_in: 1 hour
