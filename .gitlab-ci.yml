@@ -12,8 +12,10 @@ cache:
     - node_modules/
   policy: pull
 
-script:
-  - npm ci --cache .npm --prefer-offline
+pre_install:
+  stage: .pre
+  script:
+    - npm ci --cache .npm --prefer-offline
 
 install_dependencies:
   stage: build
