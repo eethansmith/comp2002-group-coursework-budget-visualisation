@@ -8,7 +8,7 @@ install_dependencies:
   stage: build
   script: 
     - npm install
-    - npm i react-scripts
+    - npm install react
     # - npm run type:check
   cache:
     key:
