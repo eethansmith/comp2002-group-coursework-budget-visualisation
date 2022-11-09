@@ -5,12 +5,12 @@ stages:
   - test
 
 cache:
-  - key:
-        files:
-          - package-lock.json
-    paths:
-        - node_modules/
-    policy: pull
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+  policy: pull
 
 script:
   - npm ci --cache .npm --prefer-offline
