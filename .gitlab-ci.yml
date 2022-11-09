@@ -12,9 +12,6 @@ install_dependencies:
     - echo "Build successful"
 
   cache:
-    key:
-      files:
-        - package-lock.json
     paths:
       - node_modules/
 
