@@ -11,11 +11,18 @@ install_dependencies:
     # - npm run type:check
     - echo "Build successful"
 
-  artifacts:
-    expire_in: 1 hour
+  cache:
+    key:
+      files:
+        - package-lock.json
     paths:
       - node_modules/
-      - build
+
+  # artifacts:
+  #   expire_in: 1 hour
+  #   paths:
+  #     - node_modules/
+  #     - build
 
 run_tests:
   stage: test
