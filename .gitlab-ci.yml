@@ -10,10 +10,8 @@ cache:
     - node_modules/
   policy: pull
 
-pre_install:
+install:
   stage: .pre
-  script:
-    - npm ci --cache .npm --prefer-offline
 
   cache:
     key: 
@@ -24,7 +22,10 @@ pre_install:
     when: on_success
     policy: pull-push
 
-install_dependencies:
+  script:
+    - npm ci --cache .npm --prefer-offline
+
+build:
   image: node:latest
   stage: build
   script: 
@@ -32,9 +33,9 @@ install_dependencies:
     # - npm run type:check
     - echo "Build successful"
 
-run_tests:
+test:
   stage: test
   needs:
-    - job: install_dependencies
+    - job: build
       artifacts: true 
   script: npm test
