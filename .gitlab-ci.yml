@@ -8,14 +8,13 @@ install_dependencies:
   stage: build
   script: 
     - npm install
-    - npm install react
     # - npm run type:check
-  cache:
-    key:
-      files:
-        - package-lock.json
+
+  artifacts:
+    expire_in: 1 hour
     paths:
       - node_modules/
+      - build
 
 run_tests:
   stage: test
