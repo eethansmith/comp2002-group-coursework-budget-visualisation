@@ -16,9 +16,9 @@ install_dependencies:
     paths:
       - node_modules/
 
-# run_tests:
-#   stage: test
-#   needs:
-#     - install_dependencies
-#   script: npm run test
+run_tests:
+  stage: test
+  needs:
+    - install_dependencies
+  script: npm run test
 
