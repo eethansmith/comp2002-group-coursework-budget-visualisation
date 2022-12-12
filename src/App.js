@@ -1,17 +1,27 @@
 import { useState } from 'react';
-import './App.css';
+import './stylesheets/App.css';
 import Chart from './components/chart'
+import Header from './components/header'
 import { IoSwapHorizontalOutline } from 'react-icons/io5'
 
 const App = () => {
 
-  const [isRingChart, setIsRingChart] = useState(0)
+  const [isRingChart, setIsRingChart] = useState(0);
+  const[isDaily, setDaily] = useState(true);
 
+  const updateDaily = (bool) => {
+    setDaily(bool);
+  }
 
+  const dailyObject = {Groceries:12, Transport:13 ,Entertainment:4, Other:6}
+  const monthlyObject = {Groceries:72, Transport:30 ,Entertainment:64, Other:100}
+
+  
   return (
     <>
+      <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
       <button onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>
-      <Chart isRingChart={isRingChart} data={{Groceries:12, Transport:13 ,Entertainment:4, Other:6}} height="200" width="200" />
+      <Chart isRingChart={isRingChart} data={isDaily ? dailyObject: monthlyObject} height="200" width="200" />
     </>
   );
 }
