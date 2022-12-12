@@ -1,24 +1,18 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Chart from './components/chart'
+import { IoSwapHorizontalOutline } from 'react-icons/io5'
 
-function App() {
+const App = () => {
+
+  const [isRingChart, setIsRingChart] = useState(0)
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <button onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>
+      <Chart isRingChart={isRingChart} data={{Groceries:12, Transport:13 ,Entertainment:4, Other:6}} height="200" width="200" />
+    </>
   );
 }
 
