@@ -17,15 +17,22 @@ const RingChart = (props) => {
         <>
             <svg className="ringChart Chart" height={props.height} width={props.width} viewBox="-1.25 -1.25 2.5 2.5">
                 {paths}
+                <text font-size="0.15" text-anchor="middle" y="-0.2"> Spent </text>
+                <text font-size="0.3" font-weight="bold" text-anchor="middle" y="0.1"> £{totalSpent(props.data)} </text>
+                <text font-size="0.15" text-anchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
             </svg>
         </>
     );
 }
 
+function totalSpent(data) {
+    return Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+}
+
 
 function makeDataPercentage(data){
 
-    const total = Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    const total = totalSpent(data);
     let temp = {};
     Object.keys(data).forEach(key => {
         temp[key] = (data[key] / total);
