@@ -18,7 +18,7 @@ exports.createRandomAccount = async function (quantity, callback) {
         .send({"quantity": quantity})
         .end(function (response) {
         if (response.error) throw new Error(response.error);
-        callback(response.raw_body);
+        callback(response);
     });
     } else {
         throw new Error("Quantity must be greater than 25 and not 0");
@@ -45,9 +45,9 @@ exports.createCustomAccount = async function (quantity, balance, creditScore, cu
             'Authorization': 'Bearer ' + token
         })
         .send(JSON.stringify({"accounts":[{"balance":balance,"creditScore":creditScore,"currencyCode":currenyCode,"productType":productType,"riskScore":riskScore,"state":state,"creditLimit":creditLimit}]}))
-        .end(function (res) {
-            if (res.error) throw new Error(res.error);
-            callback(res.raw_body);
+        .end(function (response) {
+            if (response.error) throw new Error(response.error);
+            callback(response);
         });
     } else {
         throw new Error("Quantity must be greater than 25 and not 0");
@@ -85,9 +85,9 @@ exports.createCustomTransaction = async function (callback){
         'version': '1.0'
     })
     .send("{\n\t\"transactions\": [{\"amount\": 1.23}, {\"currency\": \"INR\"}]\n}")
-    .end(function (res) {
-        if (res.error) throw new Error(res.error);
-        console.log(res.raw_body);
+    .end(function (response) {
+        if (response.error) throw new Error(response.error);
+        callback(response);
     });
 }
 
@@ -98,7 +98,7 @@ exports.getAllTransactions = async function (callback){}
 
 
 exports.getAccountByID = async function (accountID, callback){
-    unirest('GET', 'https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/' + accountID)
+    await unirest('GET', 'https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/' + accountID)
     .headers({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token,
@@ -106,12 +106,12 @@ exports.getAccountByID = async function (accountID, callback){
     })
     .end(function (response) {
         if (response.error) throw new Error(response.error);
-        callback(response.raw_body);
+        callback(response);
     });
 }
 
 exports.getTransactionByID = async function (transactionID, accountID, callback){
-    unirest('GET', 'https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/' + accountID + 
+    await unirest('GET', 'https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/' + accountID + 
     '/transactions/' + transactionID)
     .headers({
         'Content-Type': 'application/json',
@@ -120,6 +120,6 @@ exports.getTransactionByID = async function (transactionID, accountID, callback)
     })
     .end(function (response) {
         if (response.error) throw new Error(response.error);
-        callback(response.raw_body);
+        callback(response);
     });
 }
