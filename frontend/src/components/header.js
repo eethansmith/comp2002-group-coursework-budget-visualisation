@@ -8,10 +8,10 @@ const Header = (props)=> {
     }
 
     return (
-        <div class="frame">
-            <img class="logo" src={logo}/>
-            <button class={props.isDaily ? 'buttons selected' : 'buttons'} onClick={() => {handleClick()}}> Daily View </button>
-            <button class={props.isDaily ? 'buttons' : 'buttons selected'} onClick={() => {handleClick()}}> Monthly View </button>
+        <div className="frame">
+            <img className="logo" src={logo}/>
+            <button className={props.isDaily ? 'buttons selected' : 'buttons'} onClick={() => {handleClick()}}> Daily View </button>
+            <button className={props.isDaily ? 'buttons' : 'buttons selected'} onClick={() => {handleClick()}}> Monthly View </button>
 
         </div>
     );
