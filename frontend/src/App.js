@@ -29,7 +29,7 @@ const App = () => {
     <>
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
       <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>
-      <Chart isRingChart={isRingChart} data={data} height="500" width="500" />
+      <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height="500" width="500" />
     </>
   );
 }
