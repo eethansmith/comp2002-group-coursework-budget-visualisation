@@ -20,8 +20,8 @@ const App = () => {
   return (
     <>
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
-      <button onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>
-      <Chart isRingChart={isRingChart} data={isDaily ? dailyObject: monthlyObject} height="200" width="200" />
+      <button class="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>
+      <Chart isRingChart={isRingChart} data={isDaily ? dailyObject: monthlyObject} height="500" width="500" />
     </>
   );
 }

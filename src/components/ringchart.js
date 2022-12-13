@@ -15,7 +15,7 @@ const RingChart = (props) => {
 
     return (
         <>
-            <svg className="ringChart" height={props.height} width={props.width} viewBox="-1.25 -1.25 2.5 2.5">
+            <svg className="ringChart Chart" height={props.height} width={props.width} viewBox="-1.25 -1.25 2.5 2.5">
                 {paths}
             </svg>
         </>
