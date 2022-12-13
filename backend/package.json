@@ -1,0 +1,8 @@
+{
+  "name": "budget-visualisation-backend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "unirest": "^0.6.0"
+  }
+}
