@@ -6,7 +6,7 @@ import { IoSwapHorizontalOutline } from 'react-icons/io5'
 
 const App = () => {
 
-  const [isRingChart, setIsRingChart] = useState(0);
+  const [isRingChart, setIsRingChart] = useState(true);
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
 
