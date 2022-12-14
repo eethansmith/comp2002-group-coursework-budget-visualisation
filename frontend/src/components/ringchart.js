@@ -13,13 +13,19 @@ const RingChart = (props) => {
         )
     ))
 
+    if(JSON.stringify(props.data) === '{}'){
+        paths.push(
+            <circle r="1" fill="transparent" stroke="LightGray" strokeWidth="0.5"></circle>
+        )
+    }
+
     return (
         <>
             <svg className="ringChart Chart" height={props.height} width={props.width} viewBox="-1.25 -1.25 2.5 2.5">
                 {paths}
-                <text font-size="0.15" text-anchor="middle" y="-0.2"> Spent </text>
-                <text font-size="0.3" font-weight="bold" text-anchor="middle" y="0.1"> £{totalSpent(props.data)} </text>
-                <text font-size="0.15" text-anchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
+                <text fontSize="0.15" textAnchor="middle" y="-0.2"> Spent </text>
+                <text fontSize="0.3" fontWeight="bold" textAnchor="middle" y="0.1"> £{totalSpent(props.data)} </text>
+                <text fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
             </svg>
         </>
     );
