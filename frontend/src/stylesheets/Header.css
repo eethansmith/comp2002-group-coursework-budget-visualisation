@@ -3,20 +3,21 @@
     height: 100px;
     background-color: #1c2640;
     display:inline-block;
-    
+    overflow: hidden;
 }
 
 .logo {
-    padding-right:100px;
-    padding-left: 10px;
-    max-height:70%;
+    padding-right:6%;
+    padding-left: 1%;
+    max-width:13%;
     vertical-align:middle;
     display:inline-block;
 }
 
 .buttons {
     height: 100%;
-    margin-right:50px;
+    width: 20%;
+    margin-right:5%;
     background-color:transparent;
     outline:none;
     border:none;
@@ -31,6 +32,8 @@
 }
 
 .buttons.selected{
-    text-decoration: underline;
     font-weight: bold;
+    border-bottom: 12px solid;
+    border-color: lightgray;
+    padding-bottom: 0;
 }
