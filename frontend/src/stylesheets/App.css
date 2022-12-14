@@ -4,7 +4,7 @@
 
 .Chart {
   position: absolute;
-  top: 500px;
+  top: calc(50% - 250px);
   left: calc(50% - 250px);
 }
 
