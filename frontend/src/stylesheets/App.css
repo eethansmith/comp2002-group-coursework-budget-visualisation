@@ -3,9 +3,9 @@
 }
 
 .Chart {
-  position: absolute;
-  top: calc(50% - 250px);
-  left: calc(50% - 250px);
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .Swap {
@@ -19,4 +19,22 @@
   outline: none;
   border:none;
   cursor: pointer;
+}
+
+@media screen and (orientation: portrait) {
+
+  .Chart{
+    width: 75vw;
+    height: 75vw;
+    margin-top: calc(50vh - (75vw / 2) - 100px);
+  }
+  
+}
+
+@media screen and (orientation: landscape) {
+  .Chart{
+    width: 20vw;
+    height: 20vw;
+    margin-top: calc(50vh - (20vw / 2) - 100px);
+  }
 }
