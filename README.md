@@ -1,7 +1,7 @@
-cd ./backend
+cd ./backend <br>
 node app.js
 
 
-new terminal
-cd ./frontend
+new terminal <br>
+cd ./frontend <br>
 npm run start
