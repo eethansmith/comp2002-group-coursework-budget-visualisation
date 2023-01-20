@@ -23,18 +23,12 @@ const App = () => {
   useEffect(() => {
     fetchData();
   },[])
-
-  const chartSize = () => {
-    let width = window.screen.width;
-    let height = window.screen.height;
-    return (height > width) ? (width * 0.75) : (width * 0.25)
-  }
   
   return (
     <>
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
       {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
-      <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height={chartSize()} width={chartSize()} />
+      <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height="500" width="500" />
     </>
   );
 }

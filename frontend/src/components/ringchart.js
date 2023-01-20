@@ -35,7 +35,6 @@ function totalSpent(data) {
     return Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 }
 
-
 function makeDataPercentage(data){
 
     const total = totalSpent(data);

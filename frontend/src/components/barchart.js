@@ -22,7 +22,7 @@ const BarChart = (props) => {
 
     return (
         <>
-            <svg className="barChart Chart" height={props.height} width={props.width}>
+            <svg className="barChart Chart" height={props.height} width={props.width} viewBox="0 0 500 500">
                 {bars}
             </svg>
         </>
