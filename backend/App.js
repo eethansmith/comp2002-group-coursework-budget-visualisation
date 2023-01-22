@@ -1,6 +1,5 @@
 // App.js is the main file for the backend server
 // It uses Express.js to create a server and connect to MongoDB
-// Data is then sent to the frontend using JSON
 // Author: Robert, Tom
 
 // Import modules
@@ -12,31 +11,30 @@ const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 // Create express app
 const app = express();
-
 app.use(cors());
 
-// app.get('/', (req, res) => {
-//     res.send('Hello');
-// })
-
-// User account
-app.get('/api/getaccount', (req, res) => {
+// Get a random account from the database
+// For testing purposes
+// Author: Robert
+app.get('/api/random/account', (req, res) => {
     MongoClient.connect(url, function (err, db) {
         if (err)
             throw err;
         var dbo = db.db("BudgetVisualisation");
-        dbo.collection("Accounts").findOne({}, function(err, result) {
+        dbo.collection("Accounts").find({}).toArray(function(err, result) {
             if (err)
                 throw err;
-            res.json(result);
+            var randomAccount = result[Math.floor(Math.random() * result.length)];
             db.close();
+            res.send(randomAccount);
         });
     });
 });
 
 // Gets all transactions for a specific account
-// Search by accountUUID (parameter) and creates a JSON object 
-// JSON objects has category as the key and the amount as the value
+// Search by accountUUID (parameter) and timeframe (parameter)
+// JSON object has category as the key and the amount as the value
+// Author: Robert
 
 // TODO: Add date range, MONTHLY, DAILY, WEEKLY
 app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
