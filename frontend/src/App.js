@@ -15,7 +15,7 @@ const App = () => {
   }
 
   const fetchData = () => {
-    return fetch ("http://localhost:4000/api/users")
+    return fetch ("http://localhost:4000/api/transactions")
     .then((response) => response.json())
     .then((data) => setData(data));
   }
