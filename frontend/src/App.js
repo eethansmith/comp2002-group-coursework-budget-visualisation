@@ -14,8 +14,11 @@ const App = () => {
     setDaily(bool);
   }
 
+  // Fetch account transactions from backend
+  // Requires, accountID, timeframe (daily, weekly, monthly)
   const fetchData = () => {
-    return fetch ("http://localhost:4000/api/transactions")
+    var testAccountID = '30506983';
+    return fetch ("http://localhost:4000/api/" + testAccountID + "/daily" + "/transactions")
     .then((response) => response.json())
     .then((data) => setData(data));
   }
