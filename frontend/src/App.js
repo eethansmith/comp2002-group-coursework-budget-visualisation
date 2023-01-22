@@ -10,21 +10,28 @@ const App = () => {
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
 
+  // Update timeframe
   const updateDaily = (bool) => {
     setDaily(bool);
   }
 
+  // Fetch random account from backend
+  const fetchRandomAccount = async () => {
+    const response = await fetch("http://localhost:4000/api/random/account");
+    const data = await response.json();
+    return data;
+  }
+
   // Fetch account transactions from backend
   // Requires, accountID, timeframe (daily, weekly, monthly)
-  const fetchData = () => {
-    var testAccountID = '30506983';
-    return fetch ("http://localhost:4000/api/" + testAccountID + "/daily" + "/transactions")
+  const fetchData = (accountID) => {
+    return fetch ("http://localhost:4000/api/" + accountID + "/daily/transactions")
     .then((response) => response.json())
     .then((data) => setData(data));
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData('30506983');
   },[])
   
   return (
