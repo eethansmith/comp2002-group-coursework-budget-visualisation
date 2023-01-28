@@ -37,9 +37,10 @@ app.get('/api/random/account', (req, res) => {
 // Author: Robert
 
 // TODO: Add date range, MONTHLY, DAILY, WEEKLY
+// TODO: Change accountID to int (currently string)
 app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 
-    var accountID = req.params.accountID;
+    var accountID = parseInt(req.params.accountID);
     var timeframe = req.params.timeframe;
     var transactionJson = {};
 

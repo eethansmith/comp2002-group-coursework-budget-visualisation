@@ -18,20 +18,23 @@ const App = () => {
   // Fetch random account from backend
   const fetchRandomAccount = async () => {
     const response = await fetch("http://localhost:4000/api/random/account");
-    const data = await response.json();
-    return data;
+    const account = await response.json();
+    return account;
   }
 
   // Fetch account transactions from backend
   // Requires, accountID, timeframe (daily, weekly, monthly)
-  const fetchData = (accountID) => {
-    return fetch ("http://localhost:4000/api/" + accountID + "/daily/transactions")
+  const fetchData = async (accountID) => {
+    // Fetch the data
+    return fetch("http://localhost:4000/api/" + accountID + "/daily/transactions")
     .then((response) => response.json())
     .then((data) => setData(data));
   }
 
+  // Fetch random account and fetch the account transactions
+  // TODO: Fix fetching data twice
   useEffect(() => {
-    fetchData('30506983');
+    fetchRandomAccount().then((account) => fetchData(account.accountId));
   },[])
   
   return (
