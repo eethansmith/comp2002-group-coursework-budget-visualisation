@@ -28,17 +28,19 @@ async function AddTransactions(quantity, accountID) {
     let jsonStringTransaction = JSON.stringify(response.raw_body);
     let jsonObjectTransaction = JSON.parse(jsonStringTransaction);
 
+    // Change AcountUUID, MerchantUUID to a integer
+    for (let i = 0; i < jsonObjectTransaction.Transactions.length; i++) {
+      jsonObjectTransaction.Transactions[i].accountUUID = parseInt(jsonObjectTransaction.Transactions[i].accountUUID);
+      jsonObjectTransaction.Transactions[i].merchantUUID = parseInt(jsonObjectTransaction.Transactions[i].merchantUUID);
+      jsonObjectTransaction.Transactions[i].date = new Date(jsonObjectTransaction.Transactions[i].timestamp).toISOString();
+    }
+
     // Remove latitude, longtitude and emoji
     for (let i = 0; i < jsonObjectTransaction.Transactions.length; i++) {
       delete jsonObjectTransaction.Transactions[i].latitude;
       delete jsonObjectTransaction.Transactions[i].longitude;
       delete jsonObjectTransaction.Transactions[i].emoji;
-    }
-
-    // Change AcountUUID, MerchantUUID to a integer
-    for (let i = 0; i < jsonObjectTransaction.Transactions.length; i++) {
-      jsonObjectTransaction.Transactions[i].accountUUID = parseInt(jsonObjectTransaction.Transactions[i].accountUUID);
-      jsonObjectTransaction.Transactions[i].merchantUUID = parseInt(jsonObjectTransaction.Transactions[i].merchantUUID);
+      delete jsonObjectTransaction.Transactions[i].timestamp;
     }
 
     MongoClient.connect(url, function (err, db) {
@@ -99,10 +101,12 @@ async function AddCustomAccount (callback) {
   });
 }
 
+// TODO: If the transaction is not created, then the account is not created
+
 callback = function (accountID) {
   console.log(accountID);
-  // Create 250 transactions for each account (min)
-  for (let i = 0; i < 1; i++) {
+  // Create 100 transactions for each account (min)
+  for (let i = 0; i < 5; i++) {
     AddTransactions(25, accountID);
   }
 }

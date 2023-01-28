@@ -35,23 +35,58 @@ app.get('/api/random/account', (req, res) => {
 // Search by accountUUID (parameter) and timeframe (parameter)
 // JSON object has category as the key and the amount as the value
 // Author: Robert
-
-// TODO: Add date range, MONTHLY, DAILY, WEEKLY
-// TODO: Change accountID to int (currently string)
 app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 
     var accountID = parseInt(req.params.accountID);
     var timeframe = req.params.timeframe;
     var transactionJson = {};
 
+    // Type check the accountID and timeframe
+    if (typeof accountID !== 'number' || typeof timeframe !== 'string') {
+        res.status(400).send('Invalid accountID or timeframe');
+        return;
+    }
+
+    // Check if timeframe is valid
+    if (timeframe !== 'daily' && timeframe !== 'monthly') {
+        res.status(400).send('Invalid timeframe');
+        return;
+    }
+
+    // Get the current date and future date for the timeframe
+    // ISO Date format
+    var currentDate = new Date();
+    var futureDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    futureDate.setHours(0, 0, 0, 0);
+
+    if (timeframe === 'daily') {
+        // Set the future date to the next day
+        futureDate.setDate(futureDate.getDate() + 1);
+    }else if (timeframe === 'monthly') {
+        currentDate.setDate(1);
+        // Set the future date to the first day of the next month
+        futureDate.setMonth(futureDate.getMonth() + 1);
+        futureDate.setDate(1);
+    }
+
+    currentDate = currentDate.toISOString();
+    futureDate = futureDate.toISOString();
+
+    // Connect to MongoDB
     MongoClient.connect(url, function (err, db) {
         if (err)
             throw err;
         var dbo = db.db("BudgetVisualisation");
-        dbo.collection("Transactions").find({accountUUID: accountID}).toArray(function(err, result) {
+
+        // MongoDB query to find all transactions for the account
+        // And between the current date and future date
+        var query = {accountUUID: accountID, date: { $gte: currentDate, $lte: futureDate }}; 
+
+        dbo.collection("Transactions").find(query).toArray(function(err, result) {
             if (err)
                 throw err;
-            
+
             // If there are no transactions, raise an error
             if(result.length == 0){
                 res.status(404).send('No transactions found');
