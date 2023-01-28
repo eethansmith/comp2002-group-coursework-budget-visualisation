@@ -56,7 +56,7 @@ function getPath(dataAsPercentage){
     runningTotal += dataAsPercentage;
     let [endX, endY] = getCoordinates(runningTotal);
 
-    let greaterThan50 = (dataAsPercentage > 50) ? 1 : 0;
+    let greaterThan50 = (dataAsPercentage > 0.5) ? 1 : 0;
 
     let pathData = [
         "M " + startX + " " + startY,
