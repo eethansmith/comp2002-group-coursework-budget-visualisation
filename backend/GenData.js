@@ -1,7 +1,6 @@
 // Generate script for populating the database with Capital One API data
 // Author: Vasile Robert Grigoras (PSYVG1)
 const unirest = require('unirest');
-const moment = require('moment');
 // MongoDB driver
 const MongoClient = require('mongodb').MongoClient;
 
