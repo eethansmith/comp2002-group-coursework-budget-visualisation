@@ -20,7 +20,8 @@ const App = () => {
   }
 
   // Fetch account transactions from backend
-  // Requires, timeframe (daily, monthly)
+  // Requires accountID and timeframe
+  // Parameters timeframe (daily, monthly)
   const fetchData = async (timeframe) => {
     // Fetch the data
     const response = await fetch("http://localhost:4000/api/" + accountID + "/" + timeframe + "/transactions");
