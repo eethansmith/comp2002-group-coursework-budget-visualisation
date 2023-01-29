@@ -20,8 +20,8 @@ const App = () => {
   }
 
   // Fetch account transactions from backend
-  // Requires, accountID, timeframe (daily, monthly)
-  const fetchData = async (accountID, timeframe) => {
+  // Requires, timeframe (daily, monthly)
+  const fetchData = async (timeframe) => {
     // Fetch the data
     const response = await fetch("http://localhost:4000/api/" + accountID + "/" + timeframe + "/transactions");
     // If the response is not ok, return empty set
@@ -36,8 +36,7 @@ const App = () => {
   // Fetch random account and fetch the account transactions
   // The fetch is done when a state is changed, when updating the timeframe
   useEffect(() => {
-    let timeperiod = isDaily ? "daily" : "monthly";
-    fetchData(accountID, timeperiod);
+    fetchData(isDaily ? "daily" : "monthly");
   }, [isDaily])
   
   return (
