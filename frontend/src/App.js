@@ -39,11 +39,8 @@ const App = () => {
   // Fetch random account and fetch the account transactions
   // The fetch is done when a state is changed, when updating the timeframe
   useEffect(() => {
-    if (isDaily){
-      fetchRandomAccount().then((account) => fetchData(account.accountId, "daily"));
-    }else{
-      fetchRandomAccount().then((account) => fetchData(account.accountId, "monthly"));
-    }
+    let timeperiod = isDaily ? "daily" : "monthly";
+    fetchRandomAccount().then((account) => fetchData(account.accountId, timeperiod));
   }, [isDaily])
   
   return (
