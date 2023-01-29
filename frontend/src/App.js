@@ -10,31 +10,34 @@ const App = () => {
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
 
+  // Get the accountID from the URL
+  const searchParams = new URLSearchParams(window.location.search);
+  const accountID = searchParams.get("id");
+
   // Update timeframe
   const updateDaily = (bool) => {
     setDaily(bool);
   }
 
-  // Fetch random account from backend
-  const fetchRandomAccount = async () => {
-    const response = await fetch("http://localhost:4000/api/random/account");
-    const account = await response.json();
-    return account;
-  }
-
   // Fetch account transactions from backend
-  // Requires, accountID, timeframe (daily, monthly)
-  const fetchData = async (accountID) => {
+  // Requires accountID and timeframe
+  // Parameters timeframe (daily, monthly)
+  const fetchData = async (timeframe) => {
     // Fetch the data
-    return fetch("http://localhost:4000/api/" + accountID + "/monthly/transactions")
-    .then((response) => response.json())
-    .then((data) => setData(data));
+    const response = await fetch("http://localhost:4000/api/" + accountID + "/" + timeframe + "/transactions");
+    // If the response is not ok, return empty set
+    if(!response.ok){
+      return setData({});
+    }
+    // Convert the response to JSON and return data
+    const data = await response.json();
+    return setData(data);
   }
 
-  // Fetch random account and fetch the account transactions
+  // Fetch data on swap of isDaily
   useEffect(() => {
-    fetchRandomAccount().then((account) => fetchData(account.accountId));
-  },[])
+    fetchData(isDaily ? "daily" : "monthly");
+  }, [isDaily])
   
   return (
     <>
