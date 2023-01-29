@@ -89,7 +89,7 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 
             // If there are no transactions, return an error
             if(result.length == 0){
-                res.status(400).send('No transactions found');
+                res.status(200).send({});
                 db.close();
                 return;  
             }
