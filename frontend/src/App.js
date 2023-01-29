@@ -10,16 +10,13 @@ const App = () => {
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
 
+  // Get the accountID from the URL
+  const searchParams = new URLSearchParams(window.location.search);
+  const accountID = searchParams.get("id");
+
   // Update timeframe
   const updateDaily = (bool) => {
     setDaily(bool);
-  }
-
-  // Fetch random account from backend
-  const fetchRandomAccount = async () => {
-    const response = await fetch("http://localhost:4000/api/random/account");
-    const account = await response.json();
-    return account;
   }
 
   // Fetch account transactions from backend
@@ -40,7 +37,7 @@ const App = () => {
   // The fetch is done when a state is changed, when updating the timeframe
   useEffect(() => {
     let timeperiod = isDaily ? "daily" : "monthly";
-    fetchRandomAccount().then((account) => fetchData(account.accountId, timeperiod));
+    fetchData(accountID, timeperiod);
   }, [isDaily])
   
   return (
