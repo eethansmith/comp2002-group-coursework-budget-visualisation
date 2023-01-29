@@ -21,6 +21,10 @@
   cursor: pointer;
 }
 
+.Section:hover{
+  stroke-width: 0.5;
+}
+
 @media screen and (orientation: portrait) {
 
   .Chart{

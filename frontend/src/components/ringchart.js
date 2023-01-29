@@ -9,7 +9,7 @@ const RingChart = (props) => {
 
     Object.keys(dataAsPercentage).forEach((key, index) => (
         paths.push(
-            <path key={key} d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.5"></path>
+            <path key={key} className="Section" d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.4"></path>
         )
     ))
 
