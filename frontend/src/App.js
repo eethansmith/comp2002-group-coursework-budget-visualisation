@@ -30,11 +30,11 @@ const App = () => {
     }
     // Convert the response to JSON and return data
     const data = await response.json();
+    console.log(data);
     return setData(data);
   }
 
-  // Fetch random account and fetch the account transactions
-  // The fetch is done when a state is changed, when updating the timeframe
+  // Fetch data on swap of isDaily
   useEffect(() => {
     fetchData(isDaily ? "daily" : "monthly");
   }, [isDaily])
