@@ -99,16 +99,6 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
                 var transactionCategory = result[i].merchant.category;
                 var transactionAmount = Math.round(result[i].amount);
 
-                // If the category exists and a refund is made, remove the amount from the existing value
-                // if (transactionJson.hasOwnProperty(transactionCategory) && transactionAmount < 0) {
-                //     // If the final value is negative, remove the category from the JSON object
-                //     if (transactionJson[transactionCategory] + transactionAmount < 0) {
-                //         delete transactionJson[transactionCategory];
-                //         continue;
-                //     }
-                //     transactionJson[transactionCategory] -= transactionAmount;
-                //     continue;
-                // }else 
                 if (transactionAmount < 0) {
                     // If the amount is negative, do not include it (refunds)
                     continue;
