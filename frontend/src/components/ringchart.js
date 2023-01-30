@@ -46,7 +46,7 @@ const RingChart = (props) => {
 }
 
 function totalSpent(data) {
-    return Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    return Math.round(Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0) * 100) / 100;
 }
 
 function makeDataPercentage(data){
