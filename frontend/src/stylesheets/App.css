@@ -8,6 +8,13 @@
   display: block;
 }
 
+.Loader {
+  margin-top: 45vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .Swap {
   position:absolute;
   right: 25px;

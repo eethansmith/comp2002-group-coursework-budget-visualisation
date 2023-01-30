@@ -15,7 +15,7 @@ const RingChart = (props) => {
 
     if(JSON.stringify(props.data) === '{}'){
         paths.push(
-            <circle key="circle" r="1" fill="transparent" stroke="LightGray" strokeWidth="0.5"></circle>
+            <circle key="circle" r="1" fill="transparent" stroke="LightGray" strokeWidth="0.4"></circle>
         )
     }
 
