@@ -1,15 +1,31 @@
+import { useState } from "react";
+
 const colorPallete = ['#7D2B54', '#9E4B95', '#BF6C78', '#DACD82', '#97CAEB', '#61A89A', '#37753B', '#312383']
 let runningTotal = 0;
 
 const RingChart = (props) => {
 
+    const[currentSection, setCurrentSection] = useState("default");
+
     let dataAsPercentage = makeDataPercentage(props.data);
 
     const paths = [];
 
+    const text = [
+        <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> {currentSection} </text>,
+        <text key="text2" fontSize="0.3" fontWeight="bold" textAnchor="middle" y="0.1"> £{props.data[currentSection]} </text>,
+        <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
+    ];
+
+    const defaultText = [
+        <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> Spent </text>,
+        <text key="text2" fontSize="0.3" fontWeight="bold" textAnchor="middle" y="0.1"> £{totalSpent(props.data)} </text>,
+        <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
+    ];
+
     Object.keys(dataAsPercentage).forEach((key, index) => (
         paths.push(
-            <path key={key} className="Section" d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.4"></path>
+            <path onMouseOver={() => setCurrentSection(key)} onMouseLeave={() => setCurrentSection("default")} key={key} className="Section" d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.4"></path>
         )
     ))
 
@@ -23,9 +39,7 @@ const RingChart = (props) => {
         <>
             <svg className="ringChart Chart" height={props.height} width={props.width} viewBox="-1.25 -1.25 2.5 2.5">
                 {paths}
-                <text fontSize="0.15" textAnchor="middle" y="-0.2"> Spent </text>
-                <text fontSize="0.3" fontWeight="bold" textAnchor="middle" y="0.1"> £{totalSpent(props.data)} </text>
-                <text fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
+                {(currentSection== "default") ? defaultText : text}
             </svg>
         </>
     );
