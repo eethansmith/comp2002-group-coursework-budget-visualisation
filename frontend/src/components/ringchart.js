@@ -13,13 +13,13 @@ const RingChart = (props) => {
 
     const text = [
         <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> {currentSection} </text>,
-        <text key="text2" fontSize="0.3" fontWeight="bold" textAnchor="middle" y="0.1"> £{props.data[currentSection]} </text>,
+        <text key="text2" fontSize="0.25" fontWeight="bold" textAnchor="middle" y="0.1"> £{(Math.round(props.data[currentSection] * 100) / 100).toFixed(2)} </text>,
         <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
     ];
 
     const defaultText = [
         <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> Spent </text>,
-        <text key="text2" fontSize="0.3" fontWeight="bold" textAnchor="middle" y="0.1"> £{totalSpent(props.data)} </text>,
+        <text key="text2" fontSize="0.25" fontWeight="bold" textAnchor="middle" y="0.1"> £{totalSpent(props.data)} </text>,
         <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
     ];
 
@@ -46,7 +46,7 @@ const RingChart = (props) => {
 }
 
 function totalSpent(data) {
-    return Math.round(Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0) * 100) / 100;
+    return (Math.round(Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0) * 100) / 100).toFixed(2);
 }
 
 function makeDataPercentage(data){
