@@ -103,7 +103,7 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
             // Loop through all transactions and add to JSON object
             for (var i = 0; i < Object.keys(result).length; i++) {
                 var transactionCategory = result[i].merchant.category;
-                var transactionAmount = Math.round(result[i].amount);
+                var transactionAmount = result[i].amount;
 
                 if (transactionAmount < 0) {
                     // If the amount is negative, do not include it (refunds)
