@@ -12,20 +12,39 @@ const RingChart = (props) => {
     const paths = [];
 
     const text = [
-        <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> {currentSection} </text>,
-        <text key="text2" fontSize="0.25" fontWeight="bold" textAnchor="middle" y="0.1"> £{(Math.round(props.data[currentSection] * 100) / 100).toFixed(2)} </text>,
+        <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> 
+            {currentSection} 
+        </text>,
+
+        <text key="text2" fontSize="0.25" fontWeight="bold" textAnchor="middle" y="0.1"> 
+            £{(Math.round(props.data[currentSection] * 100) / 100).toFixed(2)} 
+        </text>,
+
         <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
     ];
 
     const defaultText = [
         <text key="text1" fontSize="0.15" textAnchor="middle" y="-0.2"> Spent </text>,
-        <text key="text2" fontSize="0.25" fontWeight="bold" textAnchor="middle" y="0.1"> £{totalSpent(props.data)} </text>,
+
+        <text key="text2" fontSize="0.25" fontWeight="bold" textAnchor="middle" y="0.1">
+            £{totalSpent(props.data)} 
+        </text>,
+        
         <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
     ];
 
     Object.keys(dataAsPercentage).forEach((key, index) => (
         paths.push(
-            <path onMouseOver={() => setCurrentSection(key)} onMouseLeave={() => setCurrentSection("default")} key={key} className="Section" d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.4"></path>
+            <path 
+                onMouseOver={() => setCurrentSection(key)} 
+                onMouseLeave={() => setCurrentSection("default")} 
+                key={key} className="Section" 
+                d={getPath(dataAsPercentage[key])} 
+                stroke={colorPallete[index]} 
+                fill="transparent" 
+                strokeWidth="0.4"
+            >
+            </path>
         )
     ))
 
@@ -39,7 +58,7 @@ const RingChart = (props) => {
         <>
             <svg className="ringChart Chart" height={props.height} width={props.width} viewBox="-1.25 -1.25 2.5 2.5">
                 {paths}
-                {(currentSection== "default") ? defaultText : text}
+                {(currentSection === "default") ? defaultText : text}
             </svg>
         </>
     );
