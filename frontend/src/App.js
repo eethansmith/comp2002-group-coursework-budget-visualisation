@@ -47,7 +47,7 @@ const App = () => {
     <>
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
       {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
-      {(isLoading == true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height="500" width="500" />}
+      {(isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height="500" width="500" />}
     </>
   );
 }
