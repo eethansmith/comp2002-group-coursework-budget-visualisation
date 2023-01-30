@@ -2,6 +2,11 @@
 // It uses Express.js to create a server and connect to MongoDB
 // Author: Robert, Tom
 
+// Endpoints
+// /api/account/:accountID
+// /api/random/account
+// /api/:accountID/:timeframe/transactions/
+
 // Import modules
 const express = require('express');
 const cors = require('cors');
@@ -17,6 +22,38 @@ app.use(cors());
 // Author: Tom
 app.get('/', (req, res) => {
     res.status(200).send('Hello World!');
+});
+
+// Get account id information
+// Search by accountID (parameter)
+// JSON object has account information
+// Author: Robert
+app.get('/api/account/:accountID', (req, res) => {
+    var accountID = parseInt(req.params.accountID);
+    // Type check the accountID
+    if (typeof accountID !== 'number') {
+        res.status(400).send('Type error, accountID (int)');
+        return;
+    }
+    // Connect to the database
+    MongoClient.connect(url, function (err, db) {
+        if (err)
+            throw err;
+        var dbo = db.db("BudgetVisualisation");
+        // Search for the accountID
+        dbo.collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
+            if (err)
+                throw err;
+            // If the accountID is not found, return 400
+            if (result.length === 0) {
+                res.status(400).send('AccountID not found');
+                return;
+            }
+            // Return the account information
+            res.send(result);
+            db.close();
+        });
+    });
 });
 
 // Get a random account from the database
@@ -49,13 +86,13 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 
     // Type check the accountID and timeframe
     if (typeof accountID !== 'number' || typeof timeframe !== 'string') {
-        res.status(400).send('Invalid accountID or timeframe');
+        res.status(400).send('Type error, accountID (int) timeframe (string)');
         return;
     }
 
     // Check if timeframe is valid
     if (timeframe !== 'daily' && timeframe !== 'monthly') {
-        res.status(400).send('Invalid timeframe');
+        res.status(400).send('Invalid timeframe, must be "daily" or "monthly"');
         return;
     }
 
@@ -101,9 +138,10 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
             }
 
             // Loop through all transactions and add to JSON object
+            // Add transaction category as key and transaction amount as 2 decimal point value
             for (var i = 0; i < Object.keys(result).length; i++) {
                 var transactionCategory = result[i].merchant.category;
-                var transactionAmount = result[i].amount;
+                var transactionAmount = parseFloat(result[i].amount);
 
                 if (transactionAmount < 0) {
                     // If the amount is negative, do not include it (refunds)
