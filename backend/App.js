@@ -13,6 +13,12 @@ const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 const app = express();
 app.use(cors());
 
+// Base route
+// Author: Tom
+app.get('/', (req, res) => {
+    res.status(200).send('Hello World!');
+});
+
 // Get a random account from the database
 // For testing purposes
 // Author: Robert
