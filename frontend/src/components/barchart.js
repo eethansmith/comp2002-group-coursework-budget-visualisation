@@ -15,10 +15,10 @@ const BarChart = (props) => {
             <rect 
                 key={key} 
                 width={HEIGHTWIDTH/(dataLen*2)} 
-                height ={heightedData[key]} 
-                x={HEIGHTWIDTH/dataLen*index} 
-                y = {HEIGHTWIDTH - heightedData[key]}
-                fill={colorPallete[index]}
+                height ={heightedData[key]*0.9} 
+                x={(HEIGHTWIDTH/(dataLen*2))/2 + (HEIGHTWIDTH/dataLen)*index} 
+                y = {HEIGHTWIDTH*(1 - 0.05) - heightedData[key]*0.9} 
+                fill={colorPallete[index]} 
             />
         )
     })
