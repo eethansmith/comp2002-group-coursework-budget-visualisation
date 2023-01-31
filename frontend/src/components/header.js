@@ -3,15 +3,15 @@ import '../stylesheets/Header.css'
 
 const Header = (props)=> {
 
-    const handleClick = () => {
-        props.updateDaily(!props.isDaily);
+    const handleClick = (bool) => {
+        props.updateDaily(bool);
     }
 
     return (
         <div className="frame">
-            <img className="logo" src={logo}/>
-            <button className={props.isDaily ? 'buttons selected' : 'buttons'} onClick={() => {handleClick()}}> Daily View </button>
-            <button className={props.isDaily ? 'buttons end' : 'buttons selected end'} onClick={() => {handleClick()}}> Monthly View </button>
+            <img className="logo" alt='Capital One Logo' src={logo}/>
+            <button className={props.isDaily ? 'buttons selected' : 'buttons'} onClick={() => {handleClick(true)}}> Daily View </button>
+            <button className={props.isDaily ? 'buttons end' : 'buttons selected end'} onClick={() => {handleClick(false)}}> Monthly View </button>
 
         </div>
     );
