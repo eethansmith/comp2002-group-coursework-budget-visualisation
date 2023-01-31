@@ -9,13 +9,13 @@ const RingChart = (props) => {
 
     Object.keys(dataAsPercentage).forEach((key, index) => (
         paths.push(
-            <path key={key} d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.5"></path>
+            <path key={key} className="Section" d={getPath(dataAsPercentage[key])} stroke={colorPallete[index]} fill="transparent" strokeWidth="0.4"></path>
         )
     ))
 
     if(JSON.stringify(props.data) === '{}'){
         paths.push(
-            <circle r="1" fill="transparent" stroke="LightGray" strokeWidth="0.5"></circle>
+            <circle key="circle" r="1" fill="transparent" stroke="LightGray" strokeWidth="0.4"></circle>
         )
     }
 
@@ -56,7 +56,7 @@ function getPath(dataAsPercentage){
     runningTotal += dataAsPercentage;
     let [endX, endY] = getCoordinates(runningTotal);
 
-    let greaterThan50 = (dataAsPercentage > 50) ? 1 : 0;
+    let greaterThan50 = (dataAsPercentage > 0.5) ? 1 : 0;
 
     let pathData = [
         "M " + startX + " " + startY,

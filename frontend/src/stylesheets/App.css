@@ -8,6 +8,13 @@
   display: block;
 }
 
+.Loader {
+  margin-top: 45vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .Swap {
   position:absolute;
   right: 25px;
@@ -19,6 +26,10 @@
   outline: none;
   border:none;
   cursor: pointer;
+}
+
+.Section:hover{
+  stroke-width: 0.5;
 }
 
 @media screen and (orientation: portrait) {
