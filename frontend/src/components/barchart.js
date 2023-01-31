@@ -2,7 +2,10 @@ const colorPallete = ['#7D2B54', '#9E4B95', '#BF6C78', '#DACD82', '#97CAEB', '#6
 
 const BarChart = (props) => {
 
-    const heightedData = getHeightData(props.height, props.data);
+    const HEIGHTWIDTH = 500;
+
+    const heightedData = getHeightData(HEIGHTWIDTH, props.data);
+    
     const bars = []
 
     const dataLen = Object.keys(props.data).length;
@@ -11,10 +14,10 @@ const BarChart = (props) => {
         bars.push(
             <rect 
                 key={key} 
-                width={props.width/(dataLen*2)} 
+                width={HEIGHTWIDTH/(dataLen*2)} 
                 height ={heightedData[key]} 
-                x={props.width/dataLen*index} 
-                y = {props.height - heightedData[key]}
+                x={HEIGHTWIDTH/dataLen*index} 
+                y = {HEIGHTWIDTH - heightedData[key]}
                 fill={colorPallete[index]}
             />
         )
@@ -22,7 +25,7 @@ const BarChart = (props) => {
 
     return (
         <>
-            <svg className="barChart Chart" height={props.height} width={props.width} viewBox="0 0 500 500">
+            <svg className="barChart Chart" viewBox="0 0 500 500">
                 {bars}
             </svg>
         </>
