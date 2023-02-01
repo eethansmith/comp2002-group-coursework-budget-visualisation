@@ -44,8 +44,8 @@ app.get('/api/random/account', (req, res) => {
 });
 
 // Get account id information
-// Search by accountID (parameter)
-// JSON object has account information
+// Parameter : accountID
+// Return : JSON object with account information
 // Author: Robert
 app.get('/api/account/:accountID', (req, res) => {
     var accountID = parseInt(req.params.accountID);
@@ -76,8 +76,8 @@ app.get('/api/account/:accountID', (req, res) => {
 });
 
 // Gets all transactions for a specific account
-// Search by accountUUID (parameter) and timeframe (parameter)
-// JSON object has category as the key and the amount as the value
+// Parameters : accountID, timeframe
+// Return : JSON object with category and amount
 // Author: Robert
 app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
     // Get the accountID and timeframe from the URL
@@ -124,9 +124,10 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
         var dbo = db.db("BudgetVisualisation");
 
         // MongoDB query to find all transactions for the account
-        // And between the current date and future date
-        var query = {'accountUUID': accountID, 'date': {$gte: currentDate, $lte: futureDate}}; 
-
+        // And between the current date and future date and amount is greater than 0
+        var query = {'accountUUID': accountID, 'date': {$gte: currentDate, $lte: futureDate}, 
+            'amount': {$gte: 0}}; 
+        
         dbo.collection("Transactions").find(query).toArray(function(err, result) {
             if (err)
                 throw err;
@@ -139,15 +140,11 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
             }
 
             // Loop through all transactions and add to JSON object
-            // Add transaction category as key and transaction amount as 2 decimal point value
             for (var i = 0; i < Object.keys(result).length; i++) {
                 var transactionCategory = result[i].merchant.category;
                 var transactionAmount = parseFloat(result[i].amount);
 
-                if (transactionAmount < 0) {
-                    // If the amount is negative, do not include it (refunds)
-                    continue;
-                }else if (transactionJson.hasOwnProperty(transactionCategory)) {
+                if (transactionJson.hasOwnProperty(transactionCategory)) {
                     // If the category already exists, add the amount to the existing value
                     transactionJson[transactionCategory] += transactionAmount;
                     continue;
@@ -162,9 +159,9 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 });
 
 // Get category information for a specific account and timeframe
-// Search by accountUUID (parameter), category (parameter), time
 // Sort the transactions by date
-// Returns merchant information as a JSON object
+// Paremeters : accountID, timeframe, category
+// Return : JSON object with category information
 // Author: Robert
 app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
     // Get the accountID, timeframe and category from the URL
@@ -210,9 +207,10 @@ app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
             throw err;
         var dbo = db.db("BudgetVisualisation");
         // MongoDB query to find all transactions for the account
-        var query = {'accountUUID': accountID, 'merchant.category': category, 'date': {$gte: currentDate, $lte: futureDate}};
-        // Search for the accountID, timeframe and category
-        // Sort by date
+        var query = {'accountUUID': accountID, 'merchant.category': category, 
+            'date': {$gte: currentDate, $lte: futureDate}, 'amount': {$gt: 0}};
+        // Search by accountUUID, category, and between the current date and future date
+        // Amount is greater than 0 and Sort by date
         dbo.collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
             if (err)
                 throw err;
@@ -222,17 +220,13 @@ app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
                 return;
             }
 
-            var jsonIndex = 0;
             for (var i = 0; i < Object.keys(result).length; i++) {
-                if(result[i].amount < 0)
-                    continue;
                 // Add the merchant information to the JSON object
-                transactionJson[jsonIndex] = {
+                transactionJson[i] = {
                     'merchant': result[i].merchant.name,
                     'amount': result[i].amount,
                     'date': result[i].date
                 };
-                jsonIndex++;
             }
 
             // Return the merchant information as a JSON object
