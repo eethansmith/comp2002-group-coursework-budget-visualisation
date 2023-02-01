@@ -163,6 +163,7 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 
 // Get category information for a specific account and timeframe
 // Search by accountUUID (parameter), category (parameter), time
+// Sort the transactions by date
 // Returns merchant information as a JSON object
 // Author: Robert
 app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
@@ -211,7 +212,8 @@ app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
         // MongoDB query to find all transactions for the account
         var query = {'accountUUID': accountID, 'merchant.category': category, 'date': {$gte: currentDate, $lte: futureDate}};
         // Search for the accountID, timeframe and category
-        dbo.collection("Transactions").find(query).toArray(function(err, result) {
+        // Sort by date
+        dbo.collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
             if (err)
                 throw err;
             // If no data is not found, return empty JSON object
@@ -220,15 +222,17 @@ app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
                 return;
             }
 
+            var jsonIndex = 0;
             for (var i = 0; i < Object.keys(result).length; i++) {
                 if(result[i].amount < 0)
                     continue;
                 // Add the merchant information to the JSON object
-                transactionJson[i] = {
+                transactionJson[jsonIndex] = {
                     'merchant': result[i].merchant.name,
                     'amount': result[i].amount,
                     'date': result[i].date
                 };
+                jsonIndex++;
             }
 
             // Return the merchant information as a JSON object
