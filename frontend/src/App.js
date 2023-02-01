@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './stylesheets/App.css';
 import Chart from './components/chart'
 import Header from './components/header'
+import DropDown from './components/dropdown';
 import { IoSwapHorizontalOutline } from 'react-icons/io5'
 import BarLoader from "react-spinners/BarLoader";
 
@@ -11,6 +12,24 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
+
+  const months = () => {
+    let array = [];
+    for(let i = 0; i < 12; i++){
+      let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+      array.push(new Date(y, m-i, 1));
+    }
+    return array;
+  }
+
+  const days = () => {
+    let array = [];
+    for(let i = 0; i < 30; i++){
+      let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+      array.push(new Date(y, m, date.getDate()-i));
+    }
+    return array;
+  }
 
   // Get the accountID from the URL
   const searchParams = new URLSearchParams(window.location.search);
@@ -48,6 +67,7 @@ const App = () => {
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
       {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
       {(isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height="500" width="500" />}
+      <DropDown data={isDaily ? days : months}></DropDown>
     </>
   );
 }
