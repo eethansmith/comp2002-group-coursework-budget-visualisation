@@ -13,22 +13,30 @@ const App = () => {
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
 
+  //get an object of all the months in the current year with key as the month and value as unix timestamp
   const months = () => {
-    let array = [];
+    let object = {};
     for(let i = 0; i < 12; i++){
       let date = new Date(), y = date.getFullYear(), m = date.getMonth();
-      array.push(new Date(y, m-i, 1));
+      let timestamp = new Date(y, m-i, 1);
+      let key = timestamp.toLocaleDateString('default', {month: 'short'});
+      object[key] = timestamp.getTime();
     }
-    return array;
+    return object;
   }
 
+  //get an object of all the days in the current month with key as the day of the month 
+  //and value as unix timestamp
   const days = () => {
-    let array = [];
-    for(let i = 0; i < 30; i++){
-      let date = new Date(), y = date.getFullYear(), m = date.getMonth();
-      array.push(new Date(y, m, date.getDate()-i));
+    let object = {};
+    let date = new Date(), y = date.getFullYear(), m = date.getMonth(), d = date.getDate();
+    let daysInMonth = new Date(y, m+1, 0).getDate();
+    for(let i = 0; i < daysInMonth; i++){
+      let timestamp = new Date(y, m, i+1);
+      let key = timestamp.toLocaleDateString('default', {day: 'numeric'});
+      if(timestamp.getDate() <= d)  object[key] = timestamp.getTime();
     }
-    return array;
+    return object;
   }
 
   // Get the accountID from the URL
@@ -67,7 +75,7 @@ const App = () => {
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
       {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
       {(isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily} height="500" width="500" />}
-      <DropDown data={isDaily ? days : months}></DropDown>
+      <DropDown data={isDaily ? days() : months()}></DropDown>
     </>
   );
 }
