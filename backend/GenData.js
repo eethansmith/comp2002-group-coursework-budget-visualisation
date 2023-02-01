@@ -66,7 +66,7 @@ async function AddCustomAccount (callback) {
       'Authorization': 'Bearer ' + token
   })
 
-  .send(JSON.stringify({"accounts":[{"balance":null,"creditScore":null,"currencyCode":null,
+  .send(JSON.stringify({"accounts":[{"balance":null,"creditScore":null,"currencyCode":"GBP",
   "productType":null,"riskScore":null,"state":"open","creditLimit":null}]}))
   .end(async function (response) {
 
@@ -83,6 +83,10 @@ async function AddCustomAccount (callback) {
       // Change the balance, creditLimit to a float
       jsonObjectAccount.Accounts[0].balance = parseFloat(jsonObjectAccount.Accounts[0].balance);
       jsonObjectAccount.Accounts[0].creditLimit = parseFloat(jsonObjectAccount.Accounts[0].creditLimit);
+
+      // Delete developerId, liveBalance
+      delete jsonObjectAccount.Accounts[0].developerId;
+      delete jsonObjectAccount.Accounts[0].liveBalance;
 
       // Adds the account to the mongo database
       MongoClient.connect(url, function (err, db) {

@@ -37,6 +37,9 @@ app.get('/api/random/account', (req, res) => {
             if (err)
                 throw err;
             var randomAccount = result[Math.floor(Math.random() * result.length)];
+            // Remove _id from the JSON object
+            delete randomAccount._id;
+            // Return the account information
             db.close();
             res.send(randomAccount);
         });
@@ -68,6 +71,8 @@ app.get('/api/account/:accountID', (req, res) => {
                 res.status(200).send({});
                 return;
             }
+            // Remove _id from the JSON object
+            delete result[0]._id;
             // Return the account information
             res.send(result);
             db.close();
