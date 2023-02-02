@@ -44,8 +44,8 @@
 
 @media screen and (orientation: landscape) {
   .Chart{
-    width: 20vw;
-    height: 20vw;
-    margin-top: calc(50vh - (20vw / 2) - 100px);
+    width: 70vh;
+    height: 70vh;
+    margin-top: calc(50vh - (70vh / 2) - 100px);
   }
 }
