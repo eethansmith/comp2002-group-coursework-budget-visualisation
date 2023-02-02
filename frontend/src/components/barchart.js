@@ -7,17 +7,19 @@ const BarChart = (props) => {
     const heightedData = getHeightData(HEIGHTWIDTH, props.data);
     
     const bars = []
-
+    
     const dataLen = Object.keys(props.data).length;
+
+    const barWidth = HEIGHTWIDTH/(dataLen*2);
 
     Object.keys(props.data).forEach((key, index) => {
         bars.push(
             <rect 
                 key={key} 
-                width={HEIGHTWIDTH/(dataLen*2)} 
-                height ={heightedData[key]*0.9} 
-                x={(HEIGHTWIDTH/(dataLen*2))/2 + (HEIGHTWIDTH/dataLen)*index} 
-                y = {HEIGHTWIDTH*(1 - 0.05) - heightedData[key]*0.9} 
+                width={barWidth} 
+                height ={heightedData[key]*0.7} 
+                x={(barWidth)/2 + (HEIGHTWIDTH/dataLen)*index} 
+                y={HEIGHTWIDTH*(1 - 0.15) - heightedData[key]*0.7} 
                 fill={colorPallete[index]} 
             />
         )
