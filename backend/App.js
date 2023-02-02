@@ -131,7 +131,7 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
         // MongoDB query to find all transactions for the account
         // And between the current date and future date and amount is greater than 0
         var query = {'accountUUID': accountID, 'date': {$gte: currentDate, $lte: futureDate}, 
-            'amount': {$gte: 0}}; 
+            'amount': {$gt: 0}}; 
         
         dbo.collection("Transactions").find(query).toArray(function(err, result) {
             if (err)
