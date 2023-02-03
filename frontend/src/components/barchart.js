@@ -6,7 +6,10 @@ const BarChart = (props) => {
 
     const heightedData = getHeightData(HEIGHTWIDTH, props.data);
     
-    const bars = []
+    const bars = [];
+    const xLabels = [];
+    const yLabels = getYLabelValues(HEIGHTWIDTH, props.data);
+    const lines = getLines(HEIGHTWIDTH, props.data);
     
     const dataLen = Object.keys(props.data).length;
 
@@ -23,12 +26,26 @@ const BarChart = (props) => {
                 fill={colorPallete[index]} 
             />
         )
+        xLabels.push(
+            <text
+                key={key}
+                x={(HEIGHTWIDTH/dataLen)*index + (HEIGHTWIDTH/dataLen)/2}
+                y={HEIGHTWIDTH*(1 - 0.05)}
+                textAnchor="middle"
+                fontSize="20"
+            >
+                {key}
+            </text>
+        )
     })
 
     return (
         <>
             <svg className="barChart Chart" viewBox="0 0 500 500">
                 {bars}
+                {xLabels}
+                {yLabels}
+                {lines}
             </svg>
         </>
     );
@@ -47,6 +64,55 @@ function getHeightData(height, data){
     })
 
     return temp;
+}
+
+function getYLabelValues(height, data){
+    const valuesArray = Object.values(data);
+    const maxValue = Math.max(...valuesArray);
+    const multiplier = height / maxValue;
+    const yLabels = [];
+    const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
+
+    yLabelValues.forEach((value, index) => {
+        yLabels.push(
+            <text
+                key={index}
+                x={0}
+                y={height*(1 - 0.15) - value*multiplier*0.7}
+                textAnchor="begin"
+                fontSize="20"
+                dominantBaseline={"middle"}
+            >
+                {Math.round((value*100)/100)}
+            </text>
+        )
+    })
+
+    return yLabels;
+}
+
+function getLines(height, data){
+    const valuesArray = Object.values(data);
+    const maxValue = Math.max(...valuesArray);
+    const multiplier = height / maxValue;
+    const lines = [];
+    const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
+
+    yLabelValues.forEach((value, index) => {
+        lines.push(
+            <line
+                key={index}
+                x1={height/10}
+                y1={height*(1 - 0.15) - value*multiplier*0.7}
+                x2={9*height/10}
+                y2={height*(1 - 0.15) - value*multiplier*0.7}
+                stroke="black"
+                strokeWidth="1"
+            />
+        )
+    })
+
+    return lines;
 }
 
 export default BarChart;
