@@ -40,6 +40,9 @@ const App = () => {
 
   // Fetch data on swap of isDaily
   useEffect(() => {
+    // Make ringhchart the default
+    setIsRingChart(true);
+    // Fetch the data
     fetchData(isDaily ? "daily" : "monthly");
   }, [isDaily])
   
