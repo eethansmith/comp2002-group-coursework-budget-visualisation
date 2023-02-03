@@ -32,6 +32,16 @@
   stroke-width: 0.5;
 }
 
+.Dropdown{
+  position: absolute;
+  top: 125px;
+  left: 25px;
+  width: 100px;
+  font-size: large;
+  cursor: pointer;
+
+}
+
 @media screen and (orientation: portrait) {
 
   .Chart{

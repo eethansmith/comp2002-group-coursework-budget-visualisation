@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './stylesheets/App.css';
 import Chart from './components/chart'
 import Header from './components/header'
+import DropDown from './components/dropdown';
 import { IoSwapHorizontalOutline } from 'react-icons/io5'
 import BarLoader from "react-spinners/BarLoader";
 
@@ -11,6 +12,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
+
 
   // Get the accountID from the URL
   const searchParams = new URLSearchParams(window.location.search);
@@ -49,6 +51,7 @@ const App = () => {
   return (
     <>
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
+      <DropDown isDaily={isDaily}></DropDown>
       {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
       {(isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>}
     </>
