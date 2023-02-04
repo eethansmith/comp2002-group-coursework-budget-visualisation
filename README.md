@@ -12,7 +12,7 @@ Budget Visualisation is a tool which takes a users spending and breaks it down i
 - @psynk7
 - @psyaa19
 
-## Instilation 
+## Installation
 
 - clone the repo
 - open two terminals
