@@ -14,15 +14,28 @@ Budget Visualisation is a tool which takes a users spending and breaks it down i
 
 ## Installation
 
-- clone the repo
-- open two terminals
+- Clone the repo
+- Install dependancies:
+
+```
+$ cd ./backend
+$ npm install
+$ cd ../frontend
+$ npm install
+```
+
+## How to Run
+
+-  Open two terminals
+
 - **Terminal 1**
 ```
 $ cd ./backend
-$ node app.js
+$ node App.js
 ```
+
 - **Terminal 2**
 ```
 $ cd ./frontend
-$ npm run start
+npm run start
 ```
