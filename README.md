@@ -12,7 +12,9 @@ Budget Visualisation is a tool which takes a users spending and breaks it down i
 - @psynk7
 - @psyaa19
 
-## Installation
+## Instructions
+
+#### Installation
 
 - Clone the repo
 - Install dependancies:
@@ -24,7 +26,7 @@ $ cd ../frontend
 $ npm install
 ```
 
-## How to Run
+#### How to Run
 
 -  Open two terminals
 
@@ -37,5 +39,5 @@ $ node App.js
 - **Terminal 2**
 ```
 $ cd ./frontend
-npm run start
+$ npm run start
 ```
