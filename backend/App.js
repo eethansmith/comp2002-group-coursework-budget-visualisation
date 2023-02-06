@@ -81,18 +81,19 @@ app.get('/api/account/:accountID', (req, res) => {
 });
 
 // Gets all transactions for a specific account
-// Parameters : accountID, timeframe
+// Parameters : accountID, timeframe, date (unix timestamp)
 // Return : JSON object with category and amount
 // Author: Robert
-app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
+app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
     // Get the accountID and timeframe from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
+    var date = parseInt(req.params.date);
     var transactionJson = {};
 
     // Type check the accountID and timeframe
-    if (typeof accountID !== 'number' || typeof timeframe !== 'string') {
-        res.status(400).send('Type error, accountID (int) timeframe (string)');
+    if (typeof accountID !== 'number' || typeof timeframe !== 'string' || typeof date !== 'number') {
+        res.status(400).send('Type error, accountID (int) timeframe (string) date (int)');
         return;
     }
 
@@ -104,22 +105,17 @@ app.get('/api/:accountID/:timeframe/transactions/', (req, res) => {
 
     // Get the current date and future date for the timeframe
     // ISO Date format
-    var currentDate = new Date();
-    var futureDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-    futureDate.setHours(0, 0, 0, 0);
+    var currentDate = new Date(date).toISOString();
+    var futureDate = new Date(date);
 
     if (timeframe === 'daily') {
         // Set the future date to the next day
         futureDate.setDate(futureDate.getDate() + 1);
     }else if (timeframe === 'monthly') {
-        currentDate.setDate(1);
         // Set the future date to the first day of the next month
         futureDate.setMonth(futureDate.getMonth() + 1);
-        futureDate.setDate(1);
     }
-
-    currentDate = currentDate.toISOString();
+    // Convert the future date to ISO Date format
     futureDate = futureDate.toISOString();
 
     // Connect to MongoDB
