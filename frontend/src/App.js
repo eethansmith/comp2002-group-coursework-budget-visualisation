@@ -32,6 +32,7 @@ const App = () => {
     const response = await fetch("http://localhost:4000/api/" + accountID + "/" + timeframe + "/transactions");
     // If the response is not ok, return empty set
     if(!response.ok){
+      setIsLoading(false);
       return setData({});
     }
     // Convert the response to JSON and return data
