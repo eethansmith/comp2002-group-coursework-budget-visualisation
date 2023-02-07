@@ -19,6 +19,28 @@ const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 const app = express();
 app.use(cors());
 
+// HELPER FUNCTIONS
+
+// Future date (ISO Format) function
+// Parameter : date (ISO Format), timeframe (daily, monthly)
+// Return : future date (ISO Format)
+// Author: Robert
+function futureISODate(date, timeframe) {
+    var futureDate = new Date(date);
+    if (timeframe === 'daily') {
+        // Set the future date to the next day
+        futureDate.setDate(futureDate.getDate() + 1);
+    }else if (timeframe === 'monthly') {
+        // Set the future date to the first day of the next month
+        futureDate.setMonth(futureDate.getMonth() + 1);
+    }
+    // Convert the future date to ISO Date format
+    futureDate = futureDate.toISOString();
+    return futureDate;
+}
+
+// ENDPOINTS
+
 // Base route
 // Author: Tom
 app.get('/', (req, res) => {
@@ -85,7 +107,7 @@ app.get('/api/account/:accountID', (req, res) => {
 // Return : JSON object with category and amount
 // Author: Robert
 app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
-    // Get the accountID and timeframe from the URL
+    // Get the accountID, date and timeframe from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
     var date = parseInt(req.params.date);
@@ -106,17 +128,7 @@ app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
     // Get the current date and future date for the timeframe
     // ISO Date format
     var currentDate = new Date(date).toISOString();
-    var futureDate = new Date(date);
-
-    if (timeframe === 'daily') {
-        // Set the future date to the next day
-        futureDate.setDate(futureDate.getDate() + 1);
-    }else if (timeframe === 'monthly') {
-        // Set the future date to the first day of the next month
-        futureDate.setMonth(futureDate.getMonth() + 1);
-    }
-    // Convert the future date to ISO Date format
-    futureDate = futureDate.toISOString();
+    var futureDate = futureISODate(date, timeframe);
 
     // Connect to MongoDB
     MongoClient.connect(url, function (err, db) {
@@ -161,19 +173,22 @@ app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
 
 // Get category information for a specific account and timeframe
 // Sort the transactions by date
-// Paremeters : accountID, timeframe, category
+// Paremeters : accountID, date (unix timestamp), timeframe, category
 // Return : JSON object with category information
 // Author: Robert
-app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
-    // Get the accountID, timeframe and category from the URL
+app.get('/api/:accountID/:date/:timeframe/:category/transactions/', (req, res) => {
+    // Get the accountID, date, timeframe and category from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
     var category = (req.params.category)[0].toUpperCase() + ((req.params.category).slice(1)).toLowerCase();
+    var date = parseInt(req.params.date);
     var transactionJson = {};
 
     // Type check the accountID, timeframe and category
-    if (typeof accountID !== 'number' || typeof timeframe !== 'string' || typeof category !== 'string') {
-        res.status(400).send('Type error, accountID (int) timeframe (string) category (string)');
+    if (typeof accountID !== 'number' || typeof timeframe !== 'string' 
+    || typeof category !== 'string' || typeof date !== 'number') {
+        res.status(400).send("Type error, accountID (int) timeframe (string)" +
+            "category (string) date (int)");
         return;
     }
 
@@ -185,22 +200,8 @@ app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
 
     // Get the current date and future date for the timeframe
     // ISO Date format
-    var currentDate = new Date();
-    var futureDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-    futureDate.setHours(0, 0, 0, 0);
-    
-    if (timeframe === 'daily') {
-        // Set the future date to the next day
-        futureDate.setDate(futureDate.getDate() + 1);
-    }else if (timeframe === 'monthly') {
-        currentDate.setDate(1);
-        // Set the future date to the first day of the next month
-        futureDate.setMonth(futureDate.getMonth() + 1);
-    }
-
-    currentDate = currentDate.toISOString();
-    futureDate = futureDate.toISOString();
+    var currentDate = new Date(date).toISOString();
+    var futureDate = futureISODate(date, timeframe);
 
     // Connect to the database
     MongoClient.connect(url, function (err, db) {
@@ -211,7 +212,7 @@ app.get('/api/:accountID/:timeframe/:category/transactions/', (req, res) => {
         var query = {'accountUUID': accountID, 'merchant.category': category, 
             'date': {$gte: currentDate, $lte: futureDate}, 'amount': {$gt: 0}};
         // Search by accountUUID, category, and between the current date and future date
-        // Amount is greater than 0 and Sort by date
+        // Amount is greater than 0 and Sort by date in ascending order
         dbo.collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
             if (err)
                 throw err;
