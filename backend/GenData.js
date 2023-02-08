@@ -105,8 +105,6 @@ async function AddCustomAccount (callback) {
   });
 }
 
-// TODO: If the transaction is not created, then the account is not created
-
 callback = function (accountID) {
   console.log(accountID);
   // Create 100 transactions for each account (min)
