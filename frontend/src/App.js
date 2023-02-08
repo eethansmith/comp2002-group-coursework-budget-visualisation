@@ -29,7 +29,7 @@ const App = () => {
   const fetchData = async (timeframe) => {
     // Fetch the data
     setIsLoading(true);
-    const response = await fetch("http://localhost:4000/api/" + accountID + "/" + timeframe + "/transactions");
+    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/" + timeframe);
     // If the response is not ok, return empty set
     if(!response.ok){
       setIsLoading(false);

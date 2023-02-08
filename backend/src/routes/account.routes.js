@@ -5,14 +5,14 @@
 import { Router } from 'express';
 
 // Local Modules
-import accountControllers from '../controllers/account.controllers.js';
+import accountControllers from '../Controllers/account.controllers.js';
 
 // Initialization
 const router = Router();
 
 // Requests 
 router.get('/', accountControllers.baseAccount);
-router.get('/:accountID', accountControllers.getAccount);
 router.get('/random', accountControllers.randomAccount);
+router.get('/:accountID', accountControllers.getAccount);
 
 export default router;

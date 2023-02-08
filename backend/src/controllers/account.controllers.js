@@ -2,8 +2,10 @@
 // Author: Vasile Grigoras (PSYVG1)
 
 // Import local modules
-import { getDB } from '../util/mongo.util.js';
+import { getDB } from '../Util/mongo.util.js';
 
+// Base account route
+// Author: Vasile Grigoras (PSYVG1)
 const baseAccount = (req, res)=>{
     res.send('Account base route.' + 
     'Use /api/account/:accountID to get account information.' +
@@ -42,9 +44,14 @@ const getAccount = (req, res)=>{
 // For testing purposes
 // Author: Vasile Grigoras (PSYVG1)
 const randomAccount = (req, res)=>{
-    getDB().collection( 'Accounts' ).find({}).toArray(function(err, result) {
+    getDB().collection("Accounts").find({}).toArray(function(err, result) {
         if (err)
             throw err;
+        // If no data is not found, return empty JSON object
+        if (result.length === 0) {
+            res.status(200).send({});
+            return;
+        }
         var randomAccount = result[Math.floor(Math.random() * result.length)];
         // Remove _id from the JSON object
         delete randomAccount._id;

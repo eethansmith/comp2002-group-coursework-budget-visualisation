@@ -1,25 +1,10 @@
-// App.js is the main file for routes
-// Author: Vasile Grigoras (PSYVG1), Tom
+// Transaction controller
+// Author: Vasile Grigoras (PSYVG1)
 
-// Routes
-// /api/account/:accountID
-// /api/random/account
-// /api/:accountID/:timeframe/transactions/
-// /api/:accountID/:timeframe/:category/transactions/
-
-// Import modules
-import express from 'express';
-import cors from 'cors';
 // Import local modules
-import accountRoute from './routes/account.routes.js';
-import { getDB } from './util/mongo.util.js';
+import { getDB } from '../Util/mongo.util.js';
 
-// Create express app
-const app = express();
-app.use(cors());
-
-// HELPER FUNCTIONS
-
+// Helper functions
 // Future date (ISO Format) function
 // Parameter : date (ISO Format), timeframe (daily, monthly)
 // Return : future date (ISO Format)
@@ -38,23 +23,17 @@ function futureISODate(date, timeframe) {
     return futureDate;
 }
 
-// Routes
-
-// Base route
-// Author: Tom
-app.get('/', (req, res) => {
-    res.status(200).send('Hello World!');
-});
-
-// Account Routes
+// Base transaction route
 // Author: Vasile Grigoras (PSYVG1)
-app.use('/api/account', accountRoute); 
+const baseTransaction = (req, res) => {
+    res.status(200).send('Transaction route');
+}
 
 // Gets all transactions for a specific account
 // Parameters : accountID, timeframe, date (unix timestamp)
 // Return : JSON object with category and amount
 // Author: Vasile Grigoras (PSYVG1)
-app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
+const getTransactions = (req, res) => {
     // Get the accountID, date and timeframe from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
@@ -109,14 +88,14 @@ app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
         }
         res.send(transactionJson);
     });
-});
+}
 
 // Get category information for a specific account and timeframe
 // Sort the transactions by date
 // Paremeters : accountID, date (unix timestamp), timeframe, category
 // Return : JSON object with category information
 // Author: Vasile Grigoras (PSYVG1)
-app.get('/api/:accountID/:date/:timeframe/:category/transactions/', (req, res) => {
+const getTransactionsByCategory = (req, res) => {
     // Get the accountID, date, timeframe and category from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
@@ -171,6 +150,11 @@ app.get('/api/:accountID/:date/:timeframe/:category/transactions/', (req, res) =
         // Return the merchant information as a JSON object
         res.send(transactionJson);
     });
-});
+}
 
-export default app;
+// Export of all methods as object
+export default {
+    baseTransaction,
+    getTransactions,
+    getTransactionsByCategory,
+}
