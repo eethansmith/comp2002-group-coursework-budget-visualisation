@@ -33,7 +33,7 @@ $ npm install
 - **Terminal 1**
 ```
 $ cd ./backend
-$ node App.js
+$ node server.js
 ```
 
 - **Terminal 2**

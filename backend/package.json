@@ -2,6 +2,7 @@
   "name": "budget-visualisation-backend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -13,7 +14,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vasile Robert Grigoras(PSYVG1)",
   "license": "ISC",
   "description": ""
 }
