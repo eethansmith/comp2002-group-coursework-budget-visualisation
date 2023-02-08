@@ -1,5 +1,4 @@
-// App.js is the main file for the backend server
-// It uses Express.js to create a server and connect to MongoDB
+// App.js is the main file for routes
 // Author: Robert, Tom
 
 // Routes
@@ -9,9 +8,9 @@
 // /api/:accountID/:timeframe/:category/transactions/
 
 // Import modules
-const express = require('express');
+import express from 'express';
 // MongoDB Util
-const mongoUtil = require('./mongoUtil');
+import { getDB } from './mongoUtil.js';
 // Create express app
 const app = express();
 
@@ -47,7 +46,7 @@ app.get('/', (req, res) => {
 // For testing purposes
 // Author: Vasile Grigoras (PSYVG1)
 app.get('/api/random/account', (req, res) => {
-    mongoUtil.getDB().collection( 'Accounts' ).find({}).toArray(function(err, result) {
+    getDB().collection( 'Accounts' ).find({}).toArray(function(err, result) {
         if (err)
             throw err;
         var randomAccount = result[Math.floor(Math.random() * result.length)];
@@ -71,7 +70,7 @@ app.get('/api/account/:accountID', (req, res) => {
         return;
     }
     // Connect to the database
-    mongoUtil.getDB().collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
+    getDB().collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
         if (err)
             throw err;
         // If no data is not found, return empty JSON object
@@ -120,7 +119,7 @@ app.get('/api/:accountID/:date/:timeframe/transactions/', (req, res) => {
         'amount': {$gt: 0}}; 
 
     // Connect to MongoDB        
-    mongoUtil.getDB().collection("Transactions").find(query).toArray(function(err, result) {
+    getDB().collection("Transactions").find(query).toArray(function(err, result) {
         if (err)
             throw err;
 
@@ -186,7 +185,7 @@ app.get('/api/:accountID/:date/:timeframe/:category/transactions/', (req, res) =
     // Amount is greater than 0 and Sort by date in ascending order
 
     // Connect to the database
-    mongoUtil.getDB().collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
+    getDB().collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
         if (err)
             throw err;
         // If no data is not found, return empty JSON object
@@ -209,11 +208,4 @@ app.get('/api/:accountID/:date/:timeframe/:category/transactions/', (req, res) =
     });
 });
 
-// Connect to the database and start the server
-mongoUtil.connectToServer( function( err, client ) {
-    if (err){
-        client.close();
-        throw err;
-    }
-    app.listen(4000, () => console.log('Listening on port 4000...'));
-});
+export default app;

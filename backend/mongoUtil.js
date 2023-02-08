@@ -4,23 +4,19 @@
 // Author: Vasile Grigoras (PSYVG1)
 
 // Import modules
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 // MongoDB connection string
 const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 // Database name
 var _db;
 
-module.exports = {
-    // Connect to the database
-    connectToServer: function( callback ) {
-      MongoClient.connect( url,  { useNewUrlParser: true }, 
-        function( err, client ) {
-            _db  = client.db('BudgetVisualisation');
-            return callback( err );
+export function connectToServer(callback) {
+    MongoClient.connect(url, { useNewUrlParser: true },
+        function (err, client) {
+            _db = client.db('BudgetVisualisation');
+            return callback(err);
         });
-    },
-    // Get the database
-    getDB: function() {
-      return _db;
-    }
-};
+}
+export function getDB() {
+    return _db;
+}

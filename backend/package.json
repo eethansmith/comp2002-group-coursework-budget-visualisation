@@ -2,6 +2,7 @@
   "name": "budget-visualisation-backend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "express": "^4.18.2",
     "mongodb": "^4.12.1",
