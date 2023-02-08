@@ -1,5 +1,5 @@
 // App.js is the main file for routes
-// Author: Robert, Tom
+// Author: Vasile Grigoras (PSYVG1), Tom
 
 // Routes
 // /api/account/:accountID
@@ -10,8 +10,10 @@
 // Import modules
 import express from 'express';
 import cors from 'cors';
-// MongoDB Util
+// Import local modules
+import accountRoute from './routes/account.routes.js';
 import { getDB } from './util/mongo.util.js';
+
 // Create express app
 const app = express();
 app.use(cors());
@@ -44,48 +46,9 @@ app.get('/', (req, res) => {
     res.status(200).send('Hello World!');
 });
 
-// Get a random account from the database
-// For testing purposes
+// Account Routes
 // Author: Vasile Grigoras (PSYVG1)
-app.get('/api/random/account', (req, res) => {
-    getDB().collection( 'Accounts' ).find({}).toArray(function(err, result) {
-        if (err)
-            throw err;
-        var randomAccount = result[Math.floor(Math.random() * result.length)];
-        // Remove _id from the JSON object
-        delete randomAccount._id;
-        // Return the account information
-        res.send(randomAccount);
-    });
-});
-
-// Get account id information
-// Parameter : accountID
-// Return : JSON object with account information
-// Author: Vasile Grigoras (PSYVG1)
-app.get('/api/account/:accountID', (req, res) => {
-    // Get the accountID from the URL
-    var accountID = parseInt(req.params.accountID);
-    // Type check the accountID
-    if (typeof accountID !== 'number') {
-        res.status(400).send('Type error, accountID (int)');
-        return;
-    }
-    // Connect to the database
-    getDB().collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
-        if (err)
-            throw err;
-        // If no data is not found, return empty JSON object
-        if (result.length === 0) {
-            res.status(200).send({});
-            return;
-        }
-        // Remove _id from the JSON object
-        delete result[0]._id;
-        // Return the account information
-        res.send(result);
-    });
-});
+app.use('/api/account', accountRoute); 
 
 // Gets all transactions for a specific account
 // Parameters : accountID, timeframe, date (unix timestamp)
