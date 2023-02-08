@@ -11,7 +11,7 @@
 import express from 'express';
 import cors from 'cors';
 // MongoDB Util
-import { getDB } from './mongoUtil.js';
+import { getDB } from './util/mongo.util.js';
 // Create express app
 const app = express();
 app.use(cors());

@@ -3,8 +3,8 @@
 // Author: Vasile Grigoras (PSYVG1)
 
 // Import modules
-import app from './app.js';
-import { connectToServer } from './mongoUtil.js';
+import app from './src/App.js';
+import { connectToServer } from './src/util/mongo.util.js';
 
 // Connect to the database and start the server
 connectToServer( function( err, client ) {
