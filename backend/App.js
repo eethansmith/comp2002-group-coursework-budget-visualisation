@@ -9,10 +9,12 @@
 
 // Import modules
 import express from 'express';
+import cors from 'cors';
 // MongoDB Util
 import { getDB } from './mongoUtil.js';
 // Create express app
 const app = express();
+app.use(cors());
 
 // HELPER FUNCTIONS
 
