@@ -10,12 +10,10 @@
 
 // Import modules
 const express = require('express');
-const cors = require('cors');
 // MongoDB Util
 const mongoUtil = require('./mongoUtil');
 // Create express app
 const app = express();
-app.use(cors());
 
 // HELPER FUNCTIONS
 
