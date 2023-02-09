@@ -12,6 +12,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDaily, setDaily] = useState(true);
   const [data, setData] = useState({});
+  const [timestamp, setTimestamp] = useState(0);
 
 
   // Get the accountID from the URL
@@ -26,10 +27,10 @@ const App = () => {
   // Fetch account transactions from backend
   // Requires accountID and timeframe
   // Parameters timeframe (daily, monthly)
-  const fetchData = async (timeframe) => {
+  const fetchData = async (timeframe, timestamp) => {
     // Fetch the data
     setIsLoading(true);
-    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/" + timeframe);
+    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe);
     // If the response is not ok, return empty set
     if(!response.ok){
       setIsLoading(false);
@@ -46,13 +47,13 @@ const App = () => {
     // Make ringhchart the default
     setIsRingChart(true);
     // Fetch the data
-    fetchData(isDaily ? "daily" : "monthly");
-  }, [isDaily])
+    fetchData(isDaily ? "daily" : "monthly", timestamp);
+  }, [isDaily, timestamp])
   
   return (
     <>
       <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
-      <DropDown isDaily={isDaily}></DropDown>
+      <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
       {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
       {(isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>}
     </>

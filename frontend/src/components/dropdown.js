@@ -34,8 +34,14 @@ const DropDown = (props) => {
         options.push(<option key={index} value={data[key]}>{key}</option>)
     });
 
+    const handleChange = (timestamp) => {
+        props.setTimestamp(timestamp);
+    }
+
+    handleChange(Object.values(data)[0]);
+
     return (
-        <select className="Dropdown">
+        <select onChange={e => handleChange(e.target.value)} className="Dropdown">
             {options}
         </select>
     )
