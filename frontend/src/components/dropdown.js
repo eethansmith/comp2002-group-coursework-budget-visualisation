@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const DropDown = (props) => {
   
     //get an object of all the months in the current year with key as the month and value as unix timestamp
@@ -38,7 +40,11 @@ const DropDown = (props) => {
         props.setTimestamp(timestamp);
     }
 
-    handleChange(Object.values(data)[0]);
+    //get the value of the currently selected option and run handleChange on it
+    useEffect(() => {
+        const dropdown = document.querySelector('.Dropdown');
+        handleChange(dropdown.value);
+    }, [data])
 
     return (
         <select onChange={e => handleChange(e.target.value)} className="Dropdown">
