@@ -21,7 +21,7 @@ const BarChart = (props) => {
                 key={key} 
                 width={barWidth} 
                 height ={heightedData[key]*0.7} 
-                x={(barWidth)/2 + (HEIGHTWIDTH/dataLen)*index} 
+                x={((barWidth*1.3)*index) + (HEIGHTWIDTH - ((barWidth*1.3)*dataLen))/2} 
                 y={HEIGHTWIDTH*(1 - 0.15) - heightedData[key]*0.7} 
                 fill={colorPallete[index]} 
             />
