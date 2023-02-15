@@ -4,13 +4,13 @@ Budget Visualisation is a tool which takes a users spending and breaks it down i
 
 ## Contributers
 
-- @psytm6
-- @psyvg1
-- @psydv2
-- @psyes9
-- @psyab20
-- @psynk7
-- @psyaa19
+- Tomas McCracken (@psytm6) (TEAM LEAD)
+- Vasile Grigoras (@psyvg1) (GIT ADMIN)
+- Daniel Valadkevich (@psydv2) (TEAM ADMIN)
+- Armend Berat (@psyab20)
+- Nirav Kakaiya (@psynk7)
+- Ethan Smith (@psyes9)
+- Akintokunbo Adebayo (@psyaa19)
 
 ## Instructions
 
