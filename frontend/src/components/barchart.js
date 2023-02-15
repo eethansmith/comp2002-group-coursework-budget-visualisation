@@ -13,18 +13,16 @@ const BarChart = (props) => {
     
     const dataLen = Object.keys(props.data).length;
 
-    // Pre-decided bar width based on svg width
-    const barWidth = HEIGHTWIDTH/(dataLen*2);
+    // These two variables determine where along the axes the bars will 
+    const axesStart = HEIGHTWIDTH/10 + (HEIGHTWIDTH/20)/2;
+    const axesEnd = (9*HEIGHTWIDTH)/10 - (HEIGHTWIDTH/20)/2;
 
-    // Utility variable where the multiplier determines the space between the bars
-    const barSpacing = barWidth*1.25;
+    const axesTotal = axesEnd - axesStart;
 
-    // This one is annoying to explain
-    // Basically think of it as the total width of all the bars and the spaces between them
-    // Also everything after the subtraction sign is compensating for the fact that there will
-    // be a space at the end of the last bar.
+    // Pre-decided bar width and spacing based on axes width
+    const barSpacingUtil = axesTotal/(dataLen);
 
-    const totalBarOccupation = (barSpacing*dataLen - (barSpacing-barWidth)/2);
+    const barWidth = barSpacingUtil*7/8;
 
     Object.keys(props.data).forEach((key, index) => {
         bars.push(
@@ -33,7 +31,7 @@ const BarChart = (props) => {
                 width={barWidth} 
                 height ={heightedData[key]*0.7} 
                 x={
-                    (barSpacing*index) + (HEIGHTWIDTH - totalBarOccupation)/2
+                    (barSpacingUtil*(index + 1/16)) + axesStart
                 } 
                 y={HEIGHTWIDTH*(1 - 0.15) - heightedData[key]*0.7} 
                 fill={colorPallete[index]} 
