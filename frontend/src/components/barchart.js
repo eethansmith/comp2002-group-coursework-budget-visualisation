@@ -102,14 +102,21 @@ function getYLabelValues(height, data){
     return yLabels;
 }
 
-function getLines(height, data){
+function getLines(height, data) {
     const valuesArray = Object.values(data);
     const maxValue = Math.max(...valuesArray);
     const multiplier = height / maxValue;
     const lines = [];
     const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
 
+    var lineOpacity = "1";
+
     yLabelValues.forEach((value, index) => {
+
+        if(value === 0) {
+            lineOpacity = "1";
+        }
+
         lines.push(
             <line
                 key={index}
@@ -119,8 +126,10 @@ function getLines(height, data){
                 y2={height*(1 - 0.15) - value*multiplier*0.7}
                 stroke="black"
                 strokeWidth="1"
+                opacity = {lineOpacity}
             />
         )
+        lineOpacity = "0.5";
     })
 
     return lines;
