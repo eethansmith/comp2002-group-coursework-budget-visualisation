@@ -2,32 +2,37 @@
 // Author: Vasile Grigoras (PSYVG1)
 
 // Import local modules
-import { getDB } from '../Util/mongo.util.js';
+import mongoUtil from '../Util/mongo.util.js';
 
 // Base account route
 // Author: Vasile Grigoras (PSYVG1)
 const baseAccount = (req, res)=>{
-    res.send('Account base route.' + 
+    res.status(200).send('Account base route.' + 
     'Use /api/account/:accountID to get account information.' +
     'Use /api/account/random to get a random account');
 }
 
-// Get account id information
+// Description : Get account id information
+// Author: Vasile Grigoras (PSYVG1)
 // Parameter : accountID
 // Return : JSON object with account information
-// Author: Vasile Grigoras (PSYVG1)
-const getAccount = (req, res)=>{
+const getAccount = async (req, res)=>{
     // Get the accountID from the URL
     var accountID = parseInt(req.params.accountID);
-    // Type check the accountID
-    if (typeof accountID !== 'number') {
+    // Type check the accountID, parseInt returns NaN if it is not a number
+    if (isNaN(accountID)) {
         res.status(400).send('Type error, accountID (int)');
         return;
     }
+    // Get the database connection
+    const db = await mongoUtil.getDB();
     // Connect to the database
-    getDB().collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
-        if (err)
-            throw err;
+    db.collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
+        // If there is an error, return 500 and the error
+        if (err){
+            res.status(500).send('Error: ' + err);
+            throw err;     
+        }
         // If no data is not found, return empty JSON object
         if (result.length === 0) {
             res.status(200).send({});
@@ -36,19 +41,26 @@ const getAccount = (req, res)=>{
         // Remove _id from the JSON object
         delete result[0]._id;
         // Return the account information
-        res.send(result);
+        res.status(200).send(result);
     });
 }
 
 // Get a random account from the database
 // For testing purposes
 // Author: Vasile Grigoras (PSYVG1)
-const randomAccount = (req, res)=>{
-    getDB().collection("Accounts").find({}).toArray(function(err, result) {
-        if (err)
-            throw err;
+const randomAccount = async (req, res)=>{
+    // Get the database connection
+    const db = await mongoUtil.getDB();
+    // Connect to the database
+    db.collection("Accounts").find({}).toArray(function(err, result) {
+        // If there is an error, return 500 and the error
+        if (err){
+            res.status(500).send('Error: ' + err);
+            throw err;     
+        }
         // If no data is not found, return empty JSON object
         if (result.length === 0) {
+            // Code 204 is for no content
             res.status(200).send({});
             return;
         }
@@ -56,11 +68,11 @@ const randomAccount = (req, res)=>{
         // Remove _id from the JSON object
         delete randomAccount._id;
         // Return the account information
-        res.send(randomAccount);
+        res.status(200).send(randomAccount);
     });
 }
 
-// Export of all methods as object
+// Export of all methods
 export default {
     baseAccount,
     getAccount,

@@ -1,8 +1,8 @@
 // Generate script for populating the database with Capital One API data
 // Author: Vasile Robert Grigoras (PSYVG1)
-const unirest = require('unirest');
+import unirest from 'unirest';
 // MongoDB driver
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 
 // Capital One API token
 // Add your own token here

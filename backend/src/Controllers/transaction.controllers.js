@@ -2,8 +2,7 @@
 // Author: Vasile Grigoras (PSYVG1)
 
 // Import local modules
-import { getDB } from '../Util/mongo.util.js';
-
+import mongoUtil from "../Util/mongo.util.js";
 // Helper functions
 // Future date (ISO Format) function
 // Parameter : date (ISO Format), timeframe (daily, monthly)
@@ -23,6 +22,28 @@ function futureISODate(date, timeframe) {
     return futureDate;
 }
 
+// Check the category is in the list object
+// Parameter : category (string)
+// Return : boolean
+function validCategory(category) {
+    // Get the categories from the list
+    var categories = [
+        'Gifts & Donations',
+        'Bills & Utilities',
+        'Entertainment',
+        'Auto & Transport',
+        'Personal Care',
+        'Shopping',
+        'Food & Dining',
+        'Education'
+    ];
+    // Check if the category is in the list
+    if (categories.includes(category)) {
+        return true;
+    }
+    return false;
+}
+
 // Base transaction route
 // Author: Vasile Grigoras (PSYVG1)
 const baseTransaction = (req, res) => {
@@ -33,15 +54,15 @@ const baseTransaction = (req, res) => {
 // Parameters : accountID, timeframe, date (unix timestamp)
 // Return : JSON object with category and amount
 // Author: Vasile Grigoras (PSYVG1)
-const getTransactions = (req, res) => {
+const getTransactions = async (req, res) => {
     // Get the accountID, date and timeframe from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
     var date = parseInt(req.params.date);
     var transactionJson = {};
 
-    // Type check the accountID and timeframe
-    if (typeof accountID !== 'number' || typeof timeframe !== 'string' || typeof date !== 'number') {
+    // Type check the accountID and date
+    if (isNaN(accountID) || isNaN(date)) {
         res.status(400).send('Type error, accountID (int) timeframe (string) date (int)');
         return;
     }
@@ -62,10 +83,14 @@ const getTransactions = (req, res) => {
     var query = {'accountUUID': accountID, 'date': {$gte: currentDate, $lte: futureDate}, 
         'amount': {$gt: 0}}; 
 
+    // Get the database connection
+    const db = await mongoUtil.getDB();
     // Connect to MongoDB        
-    getDB().collection("Transactions").find(query).toArray(function(err, result) {
-        if (err)
-            throw err;
+    db.collection("Transactions").find(query).toArray(function(err, result) {
+        if (err){
+            res.status(500).send('Error: ' + err);
+            throw err;            
+        }
 
         // If no data is not found, return empty JSON object
         if(result.length === 0){
@@ -95,7 +120,7 @@ const getTransactions = (req, res) => {
 // Paremeters : accountID, date (unix timestamp), timeframe, category
 // Return : JSON object with category information
 // Author: Vasile Grigoras (PSYVG1)
-const getTransactionsByCategory = (req, res) => {
+const getTransactionsByCategory = async (req, res) => {
     // Get the accountID, date, timeframe and category from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
@@ -103,11 +128,9 @@ const getTransactionsByCategory = (req, res) => {
     var date = parseInt(req.params.date);
     var transactionJson = {};
 
-    // Type check the accountID, timeframe and category
-    if (typeof accountID !== 'number' || typeof timeframe !== 'string' 
-    || typeof category !== 'string' || typeof date !== 'number') {
-        res.status(400).send("Type error, accountID (int) timeframe (string)" +
-            "category (string) date (int)");
+    // Type check the accountID and date
+    if (isNaN(accountID) || isNaN(date)) {
+        res.status(400).send("Type error, accountID (int) timeframe (string) date (int)");
         return;
     }
 
@@ -117,6 +140,12 @@ const getTransactionsByCategory = (req, res) => {
         return;
     }
 
+    // Check if category is valid
+    if (!validCategory(category)) {
+        res.status(400).send('Invalid category');
+        return;
+    }
+    
     // Get the current date and future date for the timeframe
     // ISO Date format
     var currentDate = new Date(date).toISOString();
@@ -128,16 +157,21 @@ const getTransactionsByCategory = (req, res) => {
     // Search by accountUUID, category, and between the current date and future date
     // Amount is greater than 0 and Sort by date in ascending order
 
+    // Get the database connection
+    const db = await mongoUtil.getDB();
     // Connect to the database
-    getDB().collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
-        if (err)
-            throw err;
+    db.collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
+        // If there is an error, send the error
+        if (err){
+            res.status(500).send('Error: ' + err);
+            throw err;     
+        } 
         // If no data is not found, return empty JSON object
         if (result.length === 0) {
             res.status(200).send({});
             return;
         }
-
+        
         for (var i = 0; i < Object.keys(result).length; i++) {
             // Add the merchant information to the JSON object
             transactionJson[i] = {
