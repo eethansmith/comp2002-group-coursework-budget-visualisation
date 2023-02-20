@@ -15,4 +15,5 @@ router.get('/', accountControllers.baseAccount);
 router.get('/random', accountControllers.randomAccount);
 router.get('/:accountID', accountControllers.getAccount);
 
+// Export the router
 export default router;

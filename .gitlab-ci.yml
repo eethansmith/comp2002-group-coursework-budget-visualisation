@@ -1,41 +1,31 @@
+# Build and test the backend of the project
+# Author: Vasile Grigoras (PSYVG1)
+
 stages:
-  - build
-  - test
+  - Build-Backend
+  - Test-Backend
 
-cache:
-  key:
-    files:
-      - package-lock.json
-  paths:
-    - node_modules/
-  policy: pull
-
-install:
-  stage: .pre
-
-  cache:
-    key: 
-      files:
-        - package-lock.json
-    paths:
-    - node_modules/
-    when: on_success
-    policy: pull-push
-
-  script:
-    - npm ci --cache .npm --prefer-offline
-
-build:
-  image: node:latest
-  stage: build
+# Build and test the project
+Build-Backend:
+  image: node:14
+  stage: Build-Backend
   script: 
-    - npm run build
-    # - npm run type:check
+    - cd ./backend
+    - npm ci --silent
     - echo "Build successful"
+  cache:
+    key: "$CI_COMMIT_SHA"
+    policy: push
+    paths:
+      - backend/node_modules/
+  artifacts:
+    paths:
+      - backend/node_modules/
+    expire_in: 1 week
 
-test:
-  stage: test
+Test-Backend:
+  stage: Test-Backend
   needs:
-    - job: build
+    - job: Build-Backend
       artifacts: true 
-  script: npm test
+  script: npm run test

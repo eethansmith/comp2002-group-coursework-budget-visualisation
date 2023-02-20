@@ -1,10 +1,13 @@
-// App.js is the main file for the backend.
-// Starts the server and connects to the database.
+// App.js is the app file for the backend.
 // Author: Vasile Grigoras (PSYVG1)
 
-// Routes
-// /api/account/:accountID
+// Account Routes
+// /api/account/
 // /api/account/random
+// /api/account/:accountID
+
+// Transaction Routes
+// /api/transactions/
 // /api/transactions/:accountID/:date/:timeframe/
 // /api/transactions/:accountID/:date/:timeframe/:category/
 
@@ -12,7 +15,6 @@
 import express from 'express';
 import cors from 'cors';
 // Import local modules
-import { connectToServer } from './src/Util/mongo.util.js';
 import accountRoute from './src/Routes/account.routes.js';
 import transactionRoute from './src/Routes/transaction.routes.js';
 
@@ -28,11 +30,4 @@ app.use('/api/account', accountRoute);
 // Author: Vasile Grigoras (PSYVG1)
 app.use('/api/transactions/', transactionRoute);
 
-// Connect to the database and start the server
-connectToServer( function( err, client ) {
-    if (err){
-        client.close();
-        throw err;
-    }
-    app.listen(4000, () => console.log('Listening on port 4000...'));
-});
+export default app;
