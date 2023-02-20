@@ -13,7 +13,16 @@ const BarChart = (props) => {
     
     const dataLen = Object.keys(props.data).length;
 
-    const barWidth = HEIGHTWIDTH/(dataLen*2);
+    // These two variables determine where along the axes the bars will 
+    const axesStart = HEIGHTWIDTH/10 + (HEIGHTWIDTH/20)/2;
+    const axesEnd = (9*HEIGHTWIDTH)/10 - (HEIGHTWIDTH/20)/2;
+
+    const axesTotal = axesEnd - axesStart;
+
+    // Pre-decided bar width and spacing based on axes width
+    const barSpacingUtil = axesTotal/(dataLen);
+
+    const barWidth = barSpacingUtil*7/8;
 
     Object.keys(props.data).forEach((key, index) => {
         bars.push(
@@ -21,7 +30,9 @@ const BarChart = (props) => {
                 key={key} 
                 width={barWidth} 
                 height ={heightedData[key]*0.7} 
-                x={(barWidth)/2 + (HEIGHTWIDTH/dataLen)*index} 
+                x={
+                    (barSpacingUtil*(index + 1/16)) + axesStart
+                } 
                 y={HEIGHTWIDTH*(1 - 0.15) - heightedData[key]*0.7} 
                 fill={colorPallete[index]} 
             />
@@ -91,14 +102,21 @@ function getYLabelValues(height, data){
     return yLabels;
 }
 
-function getLines(height, data){
+function getLines(height, data) {
     const valuesArray = Object.values(data);
     const maxValue = Math.max(...valuesArray);
     const multiplier = height / maxValue;
     const lines = [];
     const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
 
+    var lineOpacity = "1";
+
     yLabelValues.forEach((value, index) => {
+
+        if(value === 0) {
+            lineOpacity = "1";
+        }
+
         lines.push(
             <line
                 key={index}
@@ -108,8 +126,10 @@ function getLines(height, data){
                 y2={height*(1 - 0.15) - value*multiplier*0.7}
                 stroke="black"
                 strokeWidth="1"
+                opacity = {lineOpacity}
             />
         )
+        lineOpacity = "0.5";
     })
 
     return lines;
