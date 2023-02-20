@@ -82,7 +82,7 @@ function getYLabelValues(height, data){
     const maxValue = Math.max(...valuesArray);
     const multiplier = height / maxValue;
     const yLabels = [];
-    const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
+    var yLabelValues = pushLines(maxValue);
 
     yLabelValues.forEach((value, index) => {
         yLabels.push(
@@ -107,7 +107,9 @@ function getLines(height, data) {
     const maxValue = Math.max(...valuesArray);
     const multiplier = height / maxValue;
     const lines = [];
-    const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
+    var yLabelValues = [];
+
+    yLabelValues = pushLines(maxValue);
 
     var lineOpacity = "1";
 
@@ -133,6 +135,30 @@ function getLines(height, data) {
     })
 
     return lines;
+}
+
+function pushLines(maxValue) {
+
+    var temp = maxValue;
+    var orderOfMagnitude = 0;
+
+    const axesLabels = [];
+
+    while( temp > 10 ) {
+        temp = temp / 10;
+        orderOfMagnitude++;
+    }
+
+    const numLines = maxValue / (10 ** orderOfMagnitude) + 1 ;
+
+    for (var i = 0; i < numLines; i++) {
+        axesLabels.push(
+            i*(10 ** orderOfMagnitude)
+        )
+    }
+
+    return axesLabels;
+
 }
 
 export default BarChart;
