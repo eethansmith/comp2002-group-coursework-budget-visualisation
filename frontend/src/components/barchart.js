@@ -1,4 +1,6 @@
-const colorPallete = ['#7D2B54', '#9E4B95', '#BF6C78', '#DACD82', '#97CAEB', '#61A89A', '#37753B', '#312383']
+const colorPallete = 
+    ['#7D2B54', '#9E4B95', '#BF6C78', '#DACD82',
+     '#97CAEB', '#61A89A', '#37753B', '#312383']
 
 const BarChart = (props) => {
 
@@ -82,7 +84,8 @@ function getYLabelValues(height, data){
     const maxValue = Math.max(...valuesArray);
     const multiplier = height / maxValue;
     const yLabels = [];
-    const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
+    
+    let yLabelValues = pushLines(maxValue);
 
     yLabelValues.forEach((value, index) => {
         yLabels.push(
@@ -107,9 +110,11 @@ function getLines(height, data) {
     const maxValue = Math.max(...valuesArray);
     const multiplier = height / maxValue;
     const lines = [];
-    const yLabelValues = [0, maxValue/4, maxValue/2, maxValue*3/4, maxValue];
+    var yLabelValues = [];
 
-    var lineOpacity = "1";
+    yLabelValues = pushLines(maxValue);
+
+    let lineOpacity = "1";
 
     yLabelValues.forEach((value, index) => {
 
@@ -129,10 +134,67 @@ function getLines(height, data) {
                 opacity = {lineOpacity}
             />
         )
-        lineOpacity = "0.5";
+        lineOpacity = "0.3";
     })
 
     return lines;
+}
+
+function pushLines(maxValue) {
+
+    let tempMaxVal = maxValue;
+    let orderOfMagnitude = 0;
+    let lineModifier = 1;
+
+    const axesLabels = [];
+
+    while( tempMaxVal > 10 ) {
+        tempMaxVal = tempMaxVal / 10;
+        orderOfMagnitude++;
+    }
+
+    const calcNumLines = (maxValue / (10 ** orderOfMagnitude));
+    
+    /*
+        In the if statement below are the values that determine how many axes 
+        can appear on the graph. These are values that could change later but 
+        for the time being they work.
+
+        I am using strictly less/greater than symbols as calcNumLines is unlikely to be
+        a whole number.
+    */
+    if( calcNumLines > 7 ) {
+        lineModifier *= 2;
+    } else if ( calcNumLines < 2 ) {
+        lineModifier *= 1/5;
+    } else if ( calcNumLines < 3 ) {
+        lineModifier *= 1/2;
+    }
+
+    let iterations = calcNumLines/lineModifier;
+    const denominator = (10 ** orderOfMagnitude) * lineModifier;
+
+    /* 
+        The below if statement checks whether the difference between the 
+        max value and the top axis value is greater than half of the 
+        difference between axes.
+
+        If it is, then it adds another axis line above the bars. This way the axes
+        shouldn't ever go over the limits of the svg, and still provide a better 
+        visualisation of the spending.
+    */ 
+    if ( (maxValue % denominator) / denominator > 0.5 ) {
+        iterations++;
+    }
+
+    for (let i = 0; i < iterations; i++) {
+        axesLabels.push(
+            i * (lineModifier) * (10 ** (orderOfMagnitude))
+        )
+    }
+
+    return axesLabels;
+
 }
 
 export default BarChart;
