@@ -9,6 +9,10 @@ const RingChart = (props) => {
 
     let dataAsPercentage = makeDataPercentage(props.data);
 
+    let numSegments = 0;
+
+    Object.keys(dataAsPercentage).forEach(() => ( numSegments++ ))
+
     const paths = [];
 
     const text = [
@@ -33,20 +37,36 @@ const RingChart = (props) => {
         <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
     ];
 
-    Object.keys(dataAsPercentage).forEach((key, index) => (
+    if(numSegments === 1) {
         paths.push(
-            <path 
-                onMouseOver={() => setCurrentSection(key)} 
-                onMouseLeave={() => setCurrentSection("default")} 
-                key={key} className="Section" 
-                d={getPath(dataAsPercentage[key])} 
-                stroke={colorPallete[index]} 
+            <circle 
+                key="circle" 
+                r="1" 
                 fill="transparent" 
+                className="Section"
+                stroke={colorPallete[0]}
                 strokeWidth="0.4"
-            >
-            </path>
+                onMouseOver={() => setCurrentSection(Object.keys(dataAsPercentage)[0])} 
+                onMouseLeave={() => setCurrentSection("default")} 
+                >
+            </circle>
         )
-    ))
+    } else {
+        Object.keys(dataAsPercentage).forEach((key, index) => (
+            paths.push(
+                <path 
+                    onMouseOver={() => setCurrentSection(key)} 
+                    onMouseLeave={() => setCurrentSection("default")} 
+                    key={key} className="Section" 
+                    d={getPath(dataAsPercentage[key])} 
+                    stroke={colorPallete[index]} 
+                    fill="transparent" 
+                    strokeWidth="0.4"
+                >
+                </path>
+            )
+        ))
+    }
 
     if(JSON.stringify(props.data) === '{}'){
         paths.push(
