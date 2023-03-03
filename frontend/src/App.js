@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import './stylesheets/App.css';
-import Chart from './components/chart'
-import Header from './components/header'
+import Chart from './components/chart';
+import BudgetChart from './components/budgetchart';
+import Header from './components/header';
 import DropDown from './components/dropdown';
 import { IoSwapHorizontalOutline } from 'react-icons/io5'
 import BarLoader from "react-spinners/BarLoader";
+
 
 const App = () => {
 
@@ -58,6 +60,7 @@ const App = () => {
       {(currentPage !== 3) ?<DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown> : <></>}
       {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
       {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>) : <></>}
+      {(currentPage === 3) ? <BudgetChart data={data}></BudgetChart> : <></>}
     </>
   );
 }
