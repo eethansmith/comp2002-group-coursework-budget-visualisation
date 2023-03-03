@@ -11,6 +11,7 @@ const App = () => {
   const [isRingChart, setIsRingChart] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isDaily, setDaily] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState({});
   const [timestamp, setTimestamp] = useState(0);
 
@@ -52,10 +53,11 @@ const App = () => {
   
   return (
     <>
-      <Header updateDaily={updateDaily} isDaily={isDaily}></Header>
-      <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
-      {(JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>}
-      {(isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>}
+      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} updateDaily={updateDaily} isDaily={isDaily}></Header>
+      
+      {(currentPage !== 3) ?<DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown> : <></>}
+      {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
+      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>) : <></>}
     </>
   );
 }
