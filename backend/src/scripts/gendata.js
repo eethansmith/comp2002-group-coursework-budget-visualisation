@@ -11,8 +11,8 @@ const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2Njk2ODAwMDAsImFw
 const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 
 // Helper function
-// Add subcategories to a category
-function AddSubcategories(category) {
+// Add detailed subcategories to a category
+function AddDetailedSubcategories(category) {
   if(category === "Food & Dining") {
     return ["Restaurants", "Groceries", "Fast Food", "Coffee Shops", "Bars", "Alcohol", "Dining Out", 
     "Takeaway", "Supermarkets"];
@@ -32,6 +32,18 @@ function AddSubcategories(category) {
     return ["Books", "School", "Tuition", "Other"];
   } else if(category === "Gifts & Donations") {
     return ["Charity", "Gifts", "Donations", "Other"];
+  }
+}
+
+// Helper function
+// Add basic subcategories to a category
+function AddSubcategories(category) {
+  if(category === "Bills & Utilities") {
+    return "Bills";
+  } else if (category === "Food & Dining") {
+    return "Groceries";
+  } else{
+    return "Other";
   }
 }
 
@@ -75,12 +87,11 @@ async function AddTransactions(quantity, accountID) {
       jsonObjectTransaction.Transactions[i].accountID = parseInt(jsonObjectTransaction.Transactions[i].accountUUID);
       jsonObjectTransaction.Transactions[i].merchantID = parseInt(jsonObjectTransaction.Transactions[i].merchantUUID);
       jsonObjectTransaction.Transactions[i].date = new Date(jsonObjectTransaction.Transactions[i].timestamp).toISOString();
+      jsonObjectTransaction.Transactions[i].merchant.subcategory = AddSubcategories(jsonObjectTransaction.Transactions[i].merchant.category);
     }
 
-    // Remove latitude, longtitude, emoji, merchant description, timestamp
+    // Remove latitude, longtitude, emoji, merchant description, timestamp, pointofsale (merchant)
     // Remove accountUUID, merchantUUID - changed to accountID, merchantID
-
-    // TODO - remove message ?
 
     for (let i = 0; i < jsonObjectTransaction.Transactions.length; i++) {
       // Changed
@@ -92,6 +103,7 @@ async function AddTransactions(quantity, accountID) {
       delete jsonObjectTransaction.Transactions[i].emoji;
       delete jsonObjectTransaction.Transactions[i].timestamp;
       delete jsonObjectTransaction.Transactions[i].merchant.description;
+      delete jsonObjectTransaction.Transactions[i].merchant.pointOfSale;
     }
 
     MongoClient.connect(url, function (err, db) {
