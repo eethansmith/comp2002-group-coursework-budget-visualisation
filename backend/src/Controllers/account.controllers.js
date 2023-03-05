@@ -27,7 +27,7 @@ const getAccount = async (req, res)=>{
     // Get the database connection
     const db = await mongoUtil.getDB();
     // Connect to the database
-    db.collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
+    db.collection("Accounts").find({accountID: accountID}).toArray(function(err, result) {
         // If there is an error, return 500 and the error
         if (err){
             res.status(500).send('Error: ' + err);

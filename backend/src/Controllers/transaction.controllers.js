@@ -80,7 +80,7 @@ const getTransactions = async (req, res) => {
 
     // MongoDB query to find all transactions for the account
     // And between the current date and future date and amount is greater than 0
-    var query = {'accountUUID': accountID, 'date': {$gte: currentDate, $lte: futureDate}, 
+    var query = {'accountID': accountID, 'date': {$gte: currentDate, $lte: futureDate}, 
         'amount': {$gt: 0}}; 
 
     // Get the database connection
@@ -152,7 +152,7 @@ const getTransactionsByCategory = async (req, res) => {
     var futureDate = futureISODate(date, timeframe);
 
     // MongoDB query to find all transactions for the account
-    var query = {'accountUUID': accountID, 'merchant.category': category, 
+    var query = {'accountID': accountID, 'merchant.category': category, 
     'date': {$gte: currentDate, $lte: futureDate}, 'amount': {$gt: 0}};
     // Search by accountUUID, category, and between the current date and future date
     // Amount is greater than 0 and Sort by date in ascending order
