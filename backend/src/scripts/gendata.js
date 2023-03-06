@@ -139,6 +139,12 @@ async function AddCustomAccount (callback) {
       let jsonObjectAccount = JSON.parse(response.raw_body);
       let accountID = jsonObjectAccount.Accounts[0].accountId;
 
+      // Check accountID is 8 digits
+      if (accountID.length !== 8) {
+        console.log("AccountID is not 8 digits (Equality)" + accountID);
+        AddCustomAccount(callbackAccount);
+      }
+
       // Change the accountID, creditScore, riskScore, UCI to a integer
       jsonObjectAccount.Accounts[0].accountID = parseInt(jsonObjectAccount.Accounts[0].accountId);
       jsonObjectAccount.Accounts[0].creditScore = parseInt(jsonObjectAccount.Accounts[0].creditScore);
