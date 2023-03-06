@@ -12,6 +12,7 @@ const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 
 // Helper function
 // Add detailed subcategories to a category
+// Note - For future use
 function AddDetailedSubcategories(category) {
   if(category === "Food & Dining") {
     return ["Restaurants", "Groceries", "Fast Food", "Coffee Shops", "Bars", "Alcohol", "Dining Out", 
