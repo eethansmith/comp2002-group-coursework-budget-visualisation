@@ -77,6 +77,7 @@ async function AddTransactions(quantity, accountID) {
         });
       });
       console.log("Deleted account due to error: " + response.error);
+      return;
     }
 
     // Parse the response
