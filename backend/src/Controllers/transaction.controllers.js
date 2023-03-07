@@ -73,8 +73,7 @@ function parameterChecker(req, res) {
 
     // Check if the category exists (for getTransactionsByCategory)
     if (req.params.category) {
-        var category = (req.params.category)[0].toUpperCase() + 
-            ((req.params.category).slice(1)).toLowerCase();
+        var category = (req.params.category)
         if (!validCategory(category)) {
             res.status(400).send('Invalid category');
             return false;

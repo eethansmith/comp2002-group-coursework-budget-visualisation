@@ -193,6 +193,17 @@ describe('Test - Transaction Route (/api/transactions/)', () => {
         expect(response.body).toStrictEqual({});
         expect(response.statusCode).toBe(200);
     });
+
+    // Test 3.7 - Get Transaction Categories Route
+    // Test a json object is returned when the accountID, date, timeframe and category are valid
+    // Different category
+    test('Test 3.7 - Get Transaction Categories Route', async () => {
+        const response = await request(app).get('/api/transactions/00000000/1638811706/daily/Food & Dining');
+        expect(response.type).toBe('application/json');
+        expect(response.body).toStrictEqual({});
+        expect(response.statusCode).toBe(200);
+    });
+
 });
 
 // Close the database connection
