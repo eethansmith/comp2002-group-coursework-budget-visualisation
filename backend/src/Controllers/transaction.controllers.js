@@ -84,7 +84,6 @@ function parameterChecker(req, res) {
     return true;
 }
 
-
 // Base transaction route
 // Author: Vasile Grigoras (PSYVG1)
 const baseTransaction = (req, res) => {
@@ -178,7 +177,7 @@ const getTransactionsByCategory = async (req, res) => {
     // MongoDB query to find all transactions for the account
     var query = {'accountID': accountID, 'merchant.category': category, 
     'date': {$gte: currentDate, $lte: futureDate}, 'amount': {$gt: 0}};
-    // Search by accountUUID, category, and between the current date and future date
+    // Search by accountID, category, and between the current date and future date
     // Amount is greater than 0 and Sort by date in ascending order
 
     // Get the database connection
@@ -210,9 +209,71 @@ const getTransactionsByCategory = async (req, res) => {
     });
 }
 
+// Get subcategory information for a specific account and timeframe
+// Sort the transactions by date
+// Paremeters : accountID, date (unix timestamp), timeframe, subcategory
+// Return : JSON object with subcategory information
+// Author: Vasile Grigoras (PSYVG1)
+const getTransactionsBySubcategory = async (req, res) => {
+    // JSON object to store the category and amount
+    var transactionJson = {};
+
+    // Check parameters
+    if (!parameterChecker(req, res))
+        return;
+    
+    // Get the accountID, date, timeframe and subcategory from the URL
+    var accountID = parseInt(req.params.accountID);
+    var timeframe = (req.params.timeframe).toLowerCase();
+    var subcategory = (req.params.subcategory)[0].toUpperCase()
+        + ((req.params.subcategory).slice(1)).toLowerCase();
+    var date = parseInt(req.params.date);
+
+    // Get the current date and future date for the timeframe
+    // ISO Date format
+    var currentDate = new Date(date).toISOString();
+    var futureDate = futureISODate(date, timeframe);
+
+    // MongoDB query to find all transactions for the account
+    var query = {'accountID': accountID, 'merchant.subcategory': subcategory, 
+    'date': {$gte: currentDate, $lte: futureDate}, 'amount': {$gt: 0}};
+    // Search by accountID, category, and between the current date and future date
+    // Amount is greater than 0 and Sort by date in ascending order
+
+    // Get the database connection
+    const db = await mongoUtil.getDB();
+    // Connect to the database
+    db.collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
+        // If there is an error, send the error
+        if (err){
+            res.status(500).send('Error: ' + err);
+            throw err;     
+        } 
+        // If no data is not found, return empty JSON object
+        if (result.length === 0) {
+            res.status(200).send({});
+            return;
+        }
+        
+        // Loop through all transactions and add to subcategory amount
+        for (var i = 0; i < Object.keys(result).length; i++) {
+            // Add the amount to the JSON object
+            transactionJson[i] = {
+                'merchant': result[i].merchant.name,
+                'amount': result[i].amount,
+                'date': result[i].date
+            };
+        }
+
+        // Return the merchant information as a JSON object
+        res.send(transactionJson);
+    });
+}
+
 // Export of all methods as object
 export default {
     baseTransaction,
     getTransactions,
     getTransactionsByCategory,
+    getTransactionsBySubcategory,
 }

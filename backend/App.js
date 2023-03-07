@@ -10,6 +10,7 @@
 // /api/transactions/
 // /api/transactions/:accountID/:date/:timeframe/
 // /api/transactions/:accountID/:date/:timeframe/:category/
+// /api/transactions/:accountID/:date/:timeframe/sub/:subcategory/
 
 // Import modules
 import express from 'express';
