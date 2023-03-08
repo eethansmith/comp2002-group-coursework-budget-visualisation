@@ -90,7 +90,7 @@ const baseTransaction = (req, res) => {
     res.status(200).send('Transaction route');
 }
 
-// Gets all transactions for a specific account
+// Gets all transactions for a specific account and timeframe
 // Parameters : accountID, timeframe, date (unix timestamp)
 // Return : JSON object with category and amount
 // Author: Vasile Grigoras (PSYVG1)
