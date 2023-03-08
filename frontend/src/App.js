@@ -30,7 +30,22 @@ const App = () => {
   // Fetch account transactions from backend
   // Requires accountID and timeframe
   // Parameters timeframe (daily, monthly)
-  const fetchData = async (timeframe, timestamp) => {
+  const fetchDailyMonthlyData = async (timeframe, timestamp) => {
+    // Fetch the data
+    setIsLoading(true);
+    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe);
+    // If the response is not ok, return empty set
+    if(!response.ok){
+      setIsLoading(false);
+      return setData({});
+    }
+    // Convert the response to JSON and return data
+    const data = await response.json();
+    setIsLoading(false);
+    return setData(data);
+  }
+
+  const fetchBudgetData = async ( timeframe, timestamp) => {
     // Fetch the data
     setIsLoading(true);
     const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe);
@@ -50,8 +65,12 @@ const App = () => {
     // Make ringhchart the default
     setIsRingChart(true);
     // Fetch the data
-    fetchData(isDaily ? "daily" : "monthly", timestamp);
-  }, [isDaily, timestamp])
+    if(currentPage !== 3){
+      fetchDailyMonthlyData(isDaily ? "daily" : "monthly", timestamp);
+    }else{
+
+    }
+  }, [isDaily, timestamp, currentPage])
   
   return (
     <>
