@@ -15,10 +15,15 @@ const baseAccount = (req, res)=>{
 // Description : Get account id information
 // Author: Vasile Grigoras (PSYVG1)
 // Parameter : accountID
-// Return : JSON object with account information
+// Return : JSON object with account information or empty json object if no data is found
 const getAccount = async (req, res)=>{
     // Get the accountID from the URL
     var accountID = parseInt(req.params.accountID);
+    // Check if the accountID parameter is 8 characters long to see if it is a valid accountID
+    if (req.params.accountID.length !== 8) {
+        res.status(400).send('Invalid accountID');
+        return;
+    }
     // Type check the accountID, parseInt returns NaN if it is not a number
     if (isNaN(accountID)) {
         res.status(400).send('Type error, accountID (int)');
@@ -27,7 +32,7 @@ const getAccount = async (req, res)=>{
     // Get the database connection
     const db = await mongoUtil.getDB();
     // Connect to the database
-    db.collection("Accounts").find({accountId: accountID}).toArray(function(err, result) {
+    db.collection("Accounts").find({accountID: accountID}).toArray(function(err, result) {
         // If there is an error, return 500 and the error
         if (err){
             res.status(500).send('Error: ' + err);

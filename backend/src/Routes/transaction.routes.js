@@ -14,6 +14,7 @@ const router = Router();
 router.get('/', accountControllers.baseTransaction);
 router.get('/:accountID/:date/:timeframe/', accountControllers.getTransactions);
 router.get('/:accountID/:date/:timeframe/:category/', accountControllers.getTransactionsByCategory);
+router.get('/:accountID/:date/:timeframe/sub/:subcategory/', accountControllers.getTransactionsBySubcategory);
 
 // Export the router
 export default router;
