@@ -225,8 +225,7 @@ const getTransactionsBySubcategory = async (req, res) => {
     // Get the accountID, date, timeframe and subcategory from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
-    var subcategory = (req.params.subcategory)[0].toUpperCase()
-        + ((req.params.subcategory).slice(1)).toLowerCase();
+    var subcategory = req.params.subcategory;
     var date = parseInt(req.params.date);
 
     // Get the current date and future date for the timeframe
@@ -270,10 +269,79 @@ const getTransactionsBySubcategory = async (req, res) => {
     });
 }
 
+// Get subcategory amount for a specific account and timeframe
+// Sort the transactions by date
+// Paremeters : accountID, date (unix timestamp), timeframe
+// Return : JSON object with subcategory information
+// Author: Vasile Grigoras (PSYVG1)
+const getTransactionsForAllSubcategories = async (req, res) => {
+    // JSON object to store the subcategory and amount
+    var transactionJson = {};
+    // Subcategories to get information for
+    var subcategories = ["Other", "Bills", "Groceries"]
+
+    // Check parameters
+    if (!parameterChecker(req, res))
+        return;
+    
+    // Get the accountID, date, timeframe from the URL
+    var accountID = parseInt(req.params.accountID);
+    var timeframe = (req.params.timeframe).toLowerCase();
+    var date = parseInt(req.params.date);
+
+    // Get the current date and future date for the timeframe
+    // ISO Date format
+    var currentDate = new Date(date).toISOString();
+    var futureDate = futureISODate(date, timeframe);
+
+    // MongoDB query to find all transactions for the account
+    var query = {'accountID': accountID, 'merchant.subcategory': {$in: subcategories},
+    'date': {$gte: currentDate, $lte: futureDate}, 'amount': {$gt: 0}};
+    // Search by accountID, category, and between the current date and future date
+    // Amount is greater than 0 and Sort by date in ascending order
+
+    // Get the database connection
+    const db = await mongoUtil.getDB();
+
+    // Connect to the database
+    db.collection("Transactions").find(query).sort({'date': 1}).toArray(function (err, result) {
+        // If there is an error, send the error
+        if (err){
+            res.status(500).send('Error: ' + err);
+            throw err;     
+        } 
+        // If no data is not found, return empty JSON object
+        if (result.length === 0) {
+            res.status(200).send({});
+            return;
+        }
+        
+        // Loop through all transactions and add amount to subcategory
+        for (var i = 0; i < Object.keys(result).length; i++) {
+            // Add the amount to the JSON object
+            var transactionSubcategory = result[i].merchant.subcategory;
+            var transactionAmount = parseFloat(result[i].amount);
+
+            if (transactionJson.hasOwnProperty(transactionSubcategory)) {
+                // If the subcategory already exists, add the amount to the existing value
+                transactionJson[transactionSubcategory] += transactionAmount;
+                continue;
+            }
+
+            // If the subcategory does not exist, add it to the JSON object
+            transactionJson[transactionSubcategory] = transactionAmount;
+        }
+
+        // Return the merchant information as a JSON object
+        res.send(transactionJson);
+    });
+}
+
 // Export of all methods as object
 export default {
     baseTransaction,
     getTransactions,
     getTransactionsByCategory,
     getTransactionsBySubcategory,
+    getTransactionsForAllSubcategories,
 }
