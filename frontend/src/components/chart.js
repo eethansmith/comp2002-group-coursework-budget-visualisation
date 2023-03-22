@@ -1,5 +1,6 @@
 import BarChart from "./barchart"
 import RingChart from "./ringchart"
+import Legend from "./legend"
 
 const Chart  = (props) => {
 
@@ -10,7 +11,12 @@ const Chart  = (props) => {
         return <RingChart {...newProps}></RingChart>
     }
     else{
-        return <BarChart {...newProps}></BarChart>
+        return (
+            <div className="BarChartParent">
+                <BarChart {...newProps}></BarChart>
+                <Legend {...newProps}></Legend>
+            </div>
+        );
     }
 }
 

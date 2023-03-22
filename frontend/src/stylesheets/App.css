@@ -1,8 +1,23 @@
 .App {
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Display the two child elements side by side */
+.BarChartParent{
+  display: grid;
+  grid-template-columns: 6fr 3fr 1fr;
+  grid-template-rows: 1fr;
 }
 
 .Chart {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.legend{
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -44,18 +59,48 @@
 
 @media screen and (orientation: portrait) {
 
-  .Chart{
+  .ringChart{
     width: 75vw;
     height: 75vw;
     margin-top: calc(50vh - (75vw / 2) - 100px);
+  }
+
+  .BarChartParent{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .barChart{
+    width: 70vw;
+    height: 70vw;
+    margin-top: calc(35vh - (70vw / 2) - 100px);
+  }
+  
+  .legend{
+    width: 50vw;
+    height: 50vw;
+    margin-top: 10px;
   }
   
 }
 
 @media screen and (orientation: landscape) {
-  .Chart{
+  .ringChart{
     width: 70vh;
     height: 70vh;
     margin-top: calc(50vh - (70vh / 2) - 100px);
+  }
+
+  .barChart{
+    width: 70vh;
+    height: 70vh;
+    margin-top: calc(50vh - (70vh / 2) - 100px);
+  }
+
+  .legend{
+    width: 35vh;
+    height: 35vh;
+    margin-top: calc(50vh - (35vh / 2) - 100px);
   }
 }
