@@ -76,7 +76,7 @@ const App = () => {
     <>
       <Header currentPage={currentPage} setCurrentPage={setCurrentPage} updateDaily={updateDaily} isDaily={isDaily}></Header>
       
-      {(currentPage !== 3) ?<DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown> : <></>}
+      <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
       {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
       {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>) : <></>}
       {(currentPage === 3) ? <BudgetChart data={data}></BudgetChart> : <></>}
