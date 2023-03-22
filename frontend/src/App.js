@@ -48,7 +48,7 @@ const App = () => {
   const fetchBudgetData = async ( timeframe, timestamp) => {
     // Fetch the data
     setIsLoading(true);
-    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe);
+    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe + "/all-sub");
     // If the response is not ok, return empty set
     if(!response.ok){
       setIsLoading(false);
@@ -68,7 +68,7 @@ const App = () => {
     if(currentPage !== 3){
       fetchDailyMonthlyData(isDaily ? "daily" : "monthly", timestamp);
     }else{
-
+      fetchBudgetData(isDaily ? "daily" : "monthly", timestamp);
     }
   }, [isDaily, timestamp, currentPage])
   
