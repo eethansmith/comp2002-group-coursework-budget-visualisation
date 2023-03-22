@@ -3,6 +3,8 @@ const BudgetChart = ((props) => {
     
     const HEIGHTWIDTH = 500;
 
+    const salary = 0; //The output of the salary textbox
+
     const bars = [];
     const textBoxes = [];
 
@@ -18,9 +20,11 @@ const BudgetChart = ((props) => {
     // TODO: push a line be the "budget line"
         // we will use this line as the 100% point for the bars - i havent thought about this implementation yet
 
+    // TODO: forms/text fields here -> theres a static number of them so it shouldnt be too bad.
+
     // TODO: Bar locations/dimensions
     // forEach category 
-        // barWidth = (currentData/largestData) * TotalSpaceAllowedForBars
+        // barWidth = (currentData/largestData) * TotalSpaceAllowedForBars * proportionOfAllowed
         // Ycoord(topLeft) = axesStart + ((index + 1/16) * barSpacingUtil )
         // Xcoord = constant, we'll figure it out when we test it a bit
         // push to bars array
