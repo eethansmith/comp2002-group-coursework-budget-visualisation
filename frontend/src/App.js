@@ -79,7 +79,7 @@ const App = () => {
       <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
       {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
       {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>) : <></>}
-      {(currentPage === 3) ? <BudgetChart data={data}></BudgetChart> : <></>}
+      {(currentPage === 3) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <BudgetChart data={data}></BudgetChart> ) : <></>}
     </>
   );
 }
