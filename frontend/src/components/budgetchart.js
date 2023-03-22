@@ -13,6 +13,8 @@ const BudgetChart = ((props) => {
     
     const axesTotal = axesEnd - axesStart;
 
+
+
     // const barSpacingUtil = axesTotal/numOfBars
     // const barHeight = barSpacingUtil * 7/8
 
@@ -23,6 +25,14 @@ const BudgetChart = ((props) => {
     // TODO: forms/text fields here -> theres a static number of them so it shouldnt be too bad.
 
     // TODO: Bar locations/dimensions
+
+    //Object.keys(props.data).forEach((key,index) => {
+    //    bars.push(
+    //        <rect 
+    //        width= 
+    //    />
+    //    )
+    //})
     // forEach category 
         // barWidth = (currentData/largestData) * TotalSpaceAllowedForBars * proportionOfAllowed
         // Ycoord(topLeft) = axesStart + ((index + 1/16) * barSpacingUtil )
@@ -32,7 +42,7 @@ const BudgetChart = ((props) => {
 
 
     return (
-        <>
+        <> 
             <svg className="budgetChart Chart" viewBox="0 0 500 500">
                 {bars}
                 {axis}
