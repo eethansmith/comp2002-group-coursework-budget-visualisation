@@ -90,6 +90,7 @@ const BudgetChart = ((props) => {
     })
 
     let totalBudgeted = 0;
+
     Object.keys(spendingData).forEach((key, index) => {
         totalBudgeted += spendingData[key];
         console.log(totalBudgeted);
@@ -107,6 +108,26 @@ const BudgetChart = ((props) => {
                 (totalBudgeted/salary) * (distanceToBudgetLine)
             }
             fill='#1C2640'
+        />
+    )
+        
+    let totalSaved = salary - totalBudgeted;
+    if (totalSaved < 0) {
+        totalSaved = 0;
+    }
+
+    bars.push(
+        <rect
+            key="Salary"
+            x={yAxis}
+            y={
+                (barSpacingUtil*(3 + 1/16)) + axesStart
+            }
+            height={barHeight}
+            width={
+                (totalSaved/(salary * proportionsOfSalary[3])) * (distanceToBudgetLine)
+            }
+            fill='#97CAEB'
         />
     )
 
