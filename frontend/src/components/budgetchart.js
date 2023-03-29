@@ -15,13 +15,13 @@ const BudgetChart = ((props) => {
     
     const axesTotal = axesEnd - axesStart;
 
-    const barSpacingUtil = axesTotal/5;
+    const barSpacingUtil = axesTotal/4;
     const barHeight = barSpacingUtil*(7/8);
 
     const budgetLinePos = 0.7 * HEIGHTWIDTH;
     const yAxis = 0.1 * HEIGHTWIDTH;
 
-    const proportionsOfSalary = [0.4, 0.15, 0.3, 0.15];
+    const proportionsOfSalary = [0.4, 0.15, 0.3];
 
     const distanceToBudgetLine = budgetLinePos - yAxis;
 
@@ -101,33 +101,13 @@ const BudgetChart = ((props) => {
             key="Total"
             x={yAxis}
             y={
-                (barSpacingUtil*(4 + 1/16)) + axesStart
+                (barSpacingUtil*(3 + 1/16)) + axesStart
             }
             height={barHeight}
             width={
                 (totalBudgeted/salary) * (distanceToBudgetLine)
             }
             fill='#1C2640'
-        />
-    )
-        
-    let totalSaved = salary - totalBudgeted;
-    if (totalSaved < 0) {
-        totalSaved = 0;
-    }
-
-    bars.push(
-        <rect
-            key="Salary"
-            x={yAxis}
-            y={
-                (barSpacingUtil*(3 + 1/16)) + axesStart
-            }
-            height={barHeight}
-            width={
-                (totalSaved/(salary * proportionsOfSalary[3])) * (distanceToBudgetLine)
-            }
-            fill='#97CAEB'
         />
     )
 
