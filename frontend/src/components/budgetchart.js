@@ -85,6 +85,16 @@ const BudgetChart = ((props) => {
 
     // Drawing the bars to the chart
     Object.keys(spendingData).forEach((key,index) => {
+        let pushedBarWidth = (spendingData[key]/(proportionsOfSalary[index] * salary)) * (distanceToBudgetLine);
+        // The above line is some fun cool maths that figures out the proportion spent in comparison to the proportion budgeted
+        // An example makes this clearer; if you wanted to spend half your salary on groceries, but ended up spending 75% on groceries instead,
+        //     proportionally this is a 150% increase so the bar would span the distance to the budget line, and then half that same distance again.
+        let colour = '#97CAEB';
+        
+        if(pushedBarWidth > distanceToBudgetLine) {
+            colour = '#BF6C78';
+        }
+
         bars.push(
          <rect 
             x={yAxis} // position of the leftmost point of the bar
@@ -92,13 +102,8 @@ const BudgetChart = ((props) => {
                 (barSpacingUtil*(index + 1/16)) + axesStart // position of the top of the bar
             }
             height={barHeight}
-            width={
-                (spendingData[key]/(proportionsOfSalary[index] * salary)) * (distanceToBudgetLine) 
-                // The above line is some fun cool maths that figures out the proportion spent in comparison to the proportion budgeted
-                // An example makes this clearer; if you wanted to spend half your salary on groceries, but ended up spending 75% on groceries instead,
-                //     proportionally this is a 150% increase so the bar would span the distance to the budget line, and then half that same distance again.
-            }
-            fill='#97CAEB'
+            width={pushedBarWidth}
+            fill={colour}
          />
         )
     })
