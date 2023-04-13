@@ -1,10 +1,10 @@
-
+import { useState } from 'react';
 
 const BudgetChart = ((props) => {
+
+    const [salary, setSalary] = useState(2050);
     
     const HEIGHTWIDTH = 500;
-
-    const salary = 2050; //The output of the salary textbox
 
     const bars = [];
     const yAxes = [];
@@ -47,7 +47,7 @@ const BudgetChart = ((props) => {
     let spendingDataObject = {Bills:0,Groceries:0,Other:0};
 
     Object.keys(spendingDataObject).forEach((key, index) => {
-        if(props.data[key] != undefined) {
+        if(props.data[key] !== undefined) {
             spendingDataObject[key] = props.data[key];
         }
     })
@@ -80,8 +80,6 @@ const BudgetChart = ((props) => {
             className="budgetLine"
         />
     )
-
-    // TODO: forms/text fields here -> theres a static number of them so it shouldnt be too bad.
 
     // Drawing the bars to the chart
     Object.keys(spendingData).forEach((key,index) => {
@@ -135,7 +133,16 @@ const BudgetChart = ((props) => {
     )
 
     return (
-        <> 
+        <>
+            <input
+                type='number'
+                min='0'
+                value={salary}
+                onChange={(e) => {
+                    setSalary(e.target.value)
+                }}
+            />
+
             <svg className="budgetChart Chart" viewBox="0 0 500 500">
                 {bars}
                 {yAxes}
