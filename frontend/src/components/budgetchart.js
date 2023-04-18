@@ -3,6 +3,10 @@ import { useState } from 'react';
 const BudgetChart = ((props) => {
 
     const [salary, setSalary] = useState(2050);
+    const [billsPercentage, setBills] = useState(33);
+    const [groceriesPercentage, setGroceries] = useState(33);
+    const [otherPercentage, setOther] = useState(33);
+    
     
     const HEIGHTWIDTH = 500;
 
@@ -140,6 +144,36 @@ const BudgetChart = ((props) => {
                 value={salary}
                 onChange={(e) => {
                     setSalary(e.target.value)
+                }}
+            />
+
+            <input
+                type='number'
+                min='0'
+                max='100'
+                value={billsPercentage}
+                onChange={(e) => {
+                    setBills(e.target.value)
+                }}
+            />
+
+            <input
+                type='number'
+                min='0'
+                max='100'
+                value={groceriesPercentage}
+                onChange={(e) => {
+                    setGroceries(e.target.value)
+                }}
+            />
+
+            <input
+                type='number'
+                min='0'
+                max='100'
+                value={otherPercentage}
+                onChange={(e) => {
+                    setOther(e.target.value)
                 }}
             />
 
