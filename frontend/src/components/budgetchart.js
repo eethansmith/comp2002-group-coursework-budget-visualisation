@@ -1,14 +1,16 @@
 import { useState } from 'react';
 
+
 const BudgetChart = ((props) => {
 
     const [salary, setSalary] = useState(2050);
-    const [billsPercentage, setBills] = useState(33);
+    const [billsPercentage, setBills] = useState(34);
     const [groceriesPercentage, setGroceries] = useState(33);
     const [otherPercentage, setOther] = useState(33);
     
-    
     const HEIGHTWIDTH = 500;
+
+    const regex = /[a-z]/gi;
 
     const bars = [];
     const yAxes = [];
@@ -16,6 +18,11 @@ const BudgetChart = ((props) => {
     // All consts past this point should be fine tuned to make the image look better
     const axesStart = HEIGHTWIDTH/10 + (HEIGHTWIDTH/20)/2;
     const axesEnd = (9*HEIGHTWIDTH)/10 - (HEIGHTWIDTH/20)/2;
+
+    
+    let allowedBills = parseInt(billsPercentage);
+    let allowedGroceries = parseInt(groceriesPercentage);
+    let allowedOther = parseInt(otherPercentage);
     
     // All bars are going to appear in this range
     // axesStart is where the top of the top bar will start getting drawn at
@@ -85,6 +92,10 @@ const BudgetChart = ((props) => {
         />
     )
 
+    proportionsOfSalary[0] = (billsPercentage/100);
+    proportionsOfSalary[1] = (groceriesPercentage/100);
+    proportionsOfSalary[2] = (otherPercentage/100)
+
     // Drawing the bars to the chart
     Object.keys(spendingData).forEach((key,index) => {
         let pushedBarWidth = (spendingData[key]/(proportionsOfSalary[index] * salary)) * (distanceToBudgetLine);
@@ -97,8 +108,10 @@ const BudgetChart = ((props) => {
             colour = '#BF6C78';
         }
 
+
+        
         bars.push(
-         <rect 
+        <rect 
             x={yAxis} // position of the leftmost point of the bar
             y={
                 (barSpacingUtil*(index + 1/16)) + axesStart // position of the top of the bar
@@ -106,7 +119,7 @@ const BudgetChart = ((props) => {
             height={barHeight}
             width={pushedBarWidth}
             fill={colour}
-         />
+        />
         )
     })
 
@@ -139,41 +152,61 @@ const BudgetChart = ((props) => {
     return (
         <>
             <input
-                type='number'
+                type='text'
                 min='0'
                 value={salary}
                 onChange={(e) => {
-                    setSalary(e.target.value)
+                    let result = e.target.value.replace(regex, '')
+                    result = result < 0 ? 0 : result
+                    if(result === NaN || result === "") {
+                        result = 0;
+                    } 
+                    setSalary(parseInt(result));
                 }}
             />
 
             <input
-                type='number'
+                type='text'
                 min='0'
                 max='100'
                 value={billsPercentage}
                 onChange={(e) => {
-                    setBills(e.target.value)
+                    allowedBills = 100 - (groceriesPercentage + otherPercentage);
+                    allowedBills = (allowedBills < 0) ? 0 : allowedBills;
+                    let result = e.target.value.replace(regex, '');
+                    result = (result > allowedBills) ? allowedBills : result;
+                    if(result === "") { result = 0; }
+                    setBills(parseInt(result))
                 }}
             />
 
             <input
-                type='number'
+                type='text'
                 min='0'
                 max='100'
                 value={groceriesPercentage}
                 onChange={(e) => {
-                    setGroceries(e.target.value)
+                    allowedGroceries = 100 - (billsPercentage + otherPercentage);
+                    allowedGroceries = (allowedGroceries < 0) ? 0 : allowedGroceries;
+                    let result = e.target.value.replace(regex, '')
+                    result = (result > allowedGroceries) ? allowedGroceries : result
+                    if(result === "") { result = 0; }
+                    setGroceries(parseInt(result))
                 }}
             />
 
             <input
-                type='number'
+                type='text'
                 min='0'
                 max='100'
                 value={otherPercentage}
                 onChange={(e) => {
-                    setOther(e.target.value)
+                    allowedOther = 100 - (groceriesPercentage + billsPercentage);
+                    allowedOther = (allowedOther < 0) ? 0 : allowedOther;
+                    let result = e.target.value.replace(regex, '')
+                    result = (result > allowedOther) ? allowedOther : result
+                    if(result === "") { result = 0; }
+                    setOther(parseInt(result))
                 }}
             />
 
@@ -184,5 +217,6 @@ const BudgetChart = ((props) => {
         </>
     )
 })
+
 
 export default BudgetChart;
