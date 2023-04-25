@@ -164,8 +164,7 @@ const getTransactionsByCategory = async (req, res) => {
     // Get the accountID, date, timeframe and category from the URL
     var accountID = parseInt(req.params.accountID);
     var timeframe = (req.params.timeframe).toLowerCase();
-    var category = (req.params.category)[0].toUpperCase() 
-        + ((req.params.category).slice(1)).toLowerCase();
+    var category = req.params.category;
     var date = parseInt(req.params.date);
     
     // Get the current date and future date for the timeframe
