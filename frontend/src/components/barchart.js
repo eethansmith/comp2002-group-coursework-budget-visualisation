@@ -42,12 +42,12 @@ const BarChart = (props) => {
         xLabels.push(
             <text
                 key={key}
-                x={(HEIGHTWIDTH/dataLen)*index + (HEIGHTWIDTH/dataLen)/2}
+                x={(barSpacingUtil*(index + 1/16)) + axesStart + barWidth/2}
                 y={HEIGHTWIDTH*(1 - 0.05)}
                 textAnchor="middle"
                 fontSize="20"
             >
-                {key}
+                {index + 1}
             </text>
         )
     })
