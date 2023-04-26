@@ -17,12 +17,12 @@ const Legend = (props) => {
                     width="40" 
                     height ="40" 
                     x={140}
-                    y={index * (470 / numItems) + 60}
+                    y={index * (400 / numItems) + 60}
                     fill={colorPallete[index]} 
                 />
                 <text
                 x={160}
-                y={index * (470 / numItems) + 90}
+                y={index * (400 / numItems) + 90}
                 textAnchor="middle"
                 fill="white"
                 fontSize="30"  
@@ -31,7 +31,7 @@ const Legend = (props) => {
                 </text>
                 <text
                     x={190}
-                    y={index * (470 / numItems) + 90}
+                    y={index * (400 / numItems) + 90}
                     textAnchor="left"
                     fontSize="30"
                 >

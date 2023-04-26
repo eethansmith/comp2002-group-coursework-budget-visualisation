@@ -1,7 +1,10 @@
-.App {
-  text-align: center;
+body{
   height: 100vh;
   overflow: hidden;
+}
+
+.App {
+  text-align: center;
 }
 
 /* Display the two child elements side by side */
@@ -9,6 +12,8 @@
   display: grid;
   grid-template-columns: 6fr 3fr 1fr;
   grid-template-rows: 1fr;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .Chart {
@@ -109,6 +114,12 @@ input{
     height: 70vw;
     margin-top: calc(40vh - (70vw / 2) - 100px);
   }
+
+  .budgetChart{
+    width: 75vw;
+    height: 100vw;
+    margin-top: calc(50vh - (100vw / 2) - 100px);
+  }
   
   .legend{
     width: 50vw;
@@ -127,6 +138,12 @@ input{
 
   .barChart{
     width: 70vh;
+    height: 70vh;
+    margin-top: calc(50vh - (70vh / 2) - 100px);
+  }
+
+  .budgetChart{
+    width: 100vh;
     height: 70vh;
     margin-top: calc(50vh - (70vh / 2) - 100px);
   }

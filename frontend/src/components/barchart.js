@@ -42,7 +42,7 @@ const BarChart = (props) => {
         xLabels.push(
             <text
                 key={key}
-                x={(barSpacingUtil*(index + 1/16)) + axesStart + barWidth/2}
+                x={(BAR_SPACING_UTIL*(index + 1/16)) + AXES_START + BAR_WIDTH/2}
                 y={HEIGHTWIDTH*(1 - 0.05)}
                 textAnchor="middle"
                 fontSize="20"
