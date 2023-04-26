@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {AiFillCheckCircle, AiFillCloseCircle} from 'react-icons/ai';
 
 
 const BudgetChart = ((props) => {
@@ -179,6 +180,18 @@ const BudgetChart = ((props) => {
             >
                 £{salary * proportionsOfSalary[index]}
             </text>
+            {(pushedBarWidth > distanceToBudgetLine) ? 
+                <AiFillCloseCircle color='red' 
+                x={(budgetLinePos * 1.4)+ 15}
+                y={(index * barSpacingUtil) + axesStart + (barHeight/2)}
+                />
+                : 
+                <AiFillCheckCircle
+                x={(budgetLinePos * 1.4)+ 15}
+                y={(index * barSpacingUtil) + axesStart + (barHeight/2)}
+                color='green'
+                />
+            }
             </>
         )
         
@@ -255,6 +268,18 @@ const BudgetChart = ((props) => {
             >
                 £{salary}
             </text>
+            {(pushedBarWidth > distanceToBudgetLine) ? 
+                <AiFillCloseCircle color='red' 
+                x={(budgetLinePos * 1.4)+ 15}
+                y={(3 * barSpacingUtil) + axesStart + (barHeight/2)}
+                />
+                : 
+                <AiFillCheckCircle
+                x={(budgetLinePos * 1.4)+ 15}
+                y={(3 * barSpacingUtil) + axesStart + (barHeight/2)}
+                color='green'
+                />
+            }
         </>
     )
 
