@@ -1,8 +1,23 @@
 .App {
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Display the two child elements side by side */
+.BarChartParent{
+  display: grid;
+  grid-template-columns: 6fr 3fr 1fr;
+  grid-template-rows: 1fr;
 }
 
 .Chart {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.legend{
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -19,8 +34,8 @@
   position:absolute;
   right: 25px;
   top: 125px;
-  width: 100px;
-  height: 100px;
+  width: 40px;
+  height: 40px;
   font-size: 40px;
   background-color: transparent;
   outline: none;
@@ -76,28 +91,64 @@ input{
 
 @media screen and (orientation: portrait) {
 
-  .Chart{
+  .ringChart{
     width: 75vw;
     height: 75vw;
     margin-top: calc(50vh - (75vw / 2) - 100px);
   }
 
-  .budgetChart{
-    width: 100vw;
-    height:75vw;
+  .BarChartParent{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+  }
+
+  .barChart{
+    width: 70vw;
+    height: 70vw;
+    margin-top: calc(40vh - (70vw / 2) - 100px);
+  }
+  
+  .legend{
+    width: 50vw;
+    height: 50vw;
+    margin-top: 10px;
   }
   
 }
 
 @media screen and (orientation: landscape) {
-  .Chart{
+  .ringChart{
     width: 70vh;
     height: 70vh;
     margin-top: calc(50vh - (70vh / 2) - 100px);
   }
 
-  .budgetChart{
-    width: 100vh;
-    height:70vh;
+  .barChart{
+    width: 70vh;
+    height: 70vh;
+    margin-top: calc(50vh - (70vh / 2) - 100px);
+  }
+
+  .legend{
+    width: 35vh;
+    height: 35vh;
+    margin-top: calc(50vh - (35vh / 2) - 100px);
+  }
+}
+
+@media only screen and (max-device-width: 480px){
+  .Swap{
+    position:absolute;
+    right: 25px;
+    top: 125px;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    background-color: transparent;
+    outline: none;
+    border:none;
+    cursor: pointer;
   }
 }

@@ -6,7 +6,7 @@ import { MongoClient } from 'mongodb';
 
 // Capital One API token
 // Add your own token here
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2Njk2ODAwMDAsImFwaV9zdWIiOiJmMWRkZmMyYTM3NzcyNWE3MjA1ZTViYjM2YjczYWFmMzg2YWE2NWRlMDU5YTM2M2U4YTkwMjg1ZDA3ODViOGRmMTY5NjAzMjAwMDAwMCIsInBsYyI6IjVkY2VjNzRhZTk3NzAxMGUwM2FkNjQ5NSIsImV4cCI6MTY5NjAzMjAwMCwiZGV2ZWxvcGVyX2lkIjoiZjFkZGZjMmEzNzc3MjVhNzIwNWU1YmIzNmI3M2FhZjM4NmFhNjVkZTA1OWEzNjNlOGE5MDI4NWQwNzg1YjhkZiJ9.ec7L77UdUdyvDz9ku7gRdEo0aWTd_fGZP4fkKKAfD4uNQ6rv5P_ZgVPCpHwtHtyoghTiaKBwOaPww6PZyx4iWSZP9kH4Wh22XcSMV1jDgFx-3dhwgPSYwAgApMm_SCEI2QNETa8pLgdJdi-E7LipYbBMgoG-IPcl4BoiP6LTZc4HzLW-ZoMQF6iSAfi7izsl-mmr-76tevcWhLuR2gEqhTqyScoYFSxMERUr2u5QmGhPPbh0I30Bgz5V9JcGUDJCtPknRlka3ZlrKsw5Cqz5UnZ2VH47B-rYEBLFZfs5GXwPjrsWCzMec98CyL2oB8NcBzaBD3COV2Rdq74X5sbO9Q";
+const token = "";
 // MongoDB connection string
 const url = "mongodb+srv://root:team32@cluster0.1mjhgpj.mongodb.net/test";
 
