@@ -8,7 +8,8 @@ const BudgetChart = ((props) => {
     const [groceriesPercentage, setGroceries] = useState(33);
     const [otherPercentage, setOther] = useState(33);
     
-    const HEIGHTWIDTH = 500;
+    const HEIGHT = 500;
+    const WIDTH = 700;
 
     const regex = /[a-z]/gi;
 
@@ -16,8 +17,8 @@ const BudgetChart = ((props) => {
     const yAxes = [];
 
     // All consts past this point should be fine tuned to make the image look better
-    const axesStart = HEIGHTWIDTH/10 + (HEIGHTWIDTH/20)/2;
-    const axesEnd = (9*HEIGHTWIDTH)/10 - (HEIGHTWIDTH/20)/2;
+    const axesStart = HEIGHT/10 + (HEIGHT/20)/2;
+    const axesEnd = (9*HEIGHT)/10 - (HEIGHT/20)/2;
 
     
     let allowedBills = parseInt(billsPercentage);
@@ -46,13 +47,14 @@ const BudgetChart = ((props) => {
     const inputBoxHeight = 25;
 
     //This is the width of the input box
-    const inputBoxWidth = 45;
+    const inputBoxWidth = 30;
 
     // A static line that displays how much you've spent in comparison to how much you've planned to spend this month according to your salary
-    const budgetLinePos = 0.7 * HEIGHTWIDTH;
+    // Use HEIGHT here to indicate that it is 0.7 * HEIGHT in relation to the y Axis line
+    const budgetLinePos = 0.7 * HEIGHT;
 
     // Position of yAxis line (leftmost line that bars come from) relative to the size of the svg
-    const yAxis = 0.1 * HEIGHTWIDTH;
+    const yAxis = 0.1 * WIDTH;
 
     // Initial values for the budgeting of the categories as a proportion of the inputted salary
     const proportionsOfSalary = [0.4, 0.15, 0.3];
@@ -102,19 +104,24 @@ const BudgetChart = ((props) => {
     proportionsOfSalary[1] = (groceriesPercentage/100);
     proportionsOfSalary[2] = (otherPercentage/100)
 
+    let pushedBarWidth = 0;
+    let colour = 0;
+
     // Drawing the bars to the chart
     Object.keys(spendingData).forEach((key,index) => {
-        let pushedBarWidth = (spendingData[key]/(proportionsOfSalary[index] * salary)) * (distanceToBudgetLine);
+        pushedBarWidth = (spendingData[key]/(proportionsOfSalary[index] * salary)) * (distanceToBudgetLine);
         // The above line is some fun cool maths that figures out the proportion spent in comparison to the proportion budgeted
         // An example makes this clearer; if you wanted to spend half your salary on groceries, but ended up spending 75% on groceries instead,
         //     proportionally this is a 150% increase so the bar would span the distance to the budget line, and then half that same distance again.
-        let colour = '#97CAEB';
-        
+        colour = '#97CAEB';
+
         if(pushedBarWidth > distanceToBudgetLine) {
             colour = '#BF6C78';
         }
 
-
+        if(pushedBarWidth > distanceToBudgetLine * 1.5) {
+            pushedBarWidth = distanceToBudgetLine * 1.5;
+        }
         
         bars.push(
         <rect 
@@ -140,7 +147,21 @@ const BudgetChart = ((props) => {
 
     // pushing the totalBar to the bars array
     // Basically displays the proportion spent in comparison to the user's salary
+
+    pushedBarWidth = (totalSpent/salary) * distanceToBudgetLine;
+        
+    colour = '#1C2640';
+
+    if(pushedBarWidth > distanceToBudgetLine) {
+        colour = '#7D2B54';
+    }
+
+    if(pushedBarWidth > distanceToBudgetLine * 1.5) {
+        pushedBarWidth = distanceToBudgetLine * 1.5;
+    }
+
     bars.push(
+        
         <rect
             key="Total"
             x={yAxis}
@@ -148,10 +169,8 @@ const BudgetChart = ((props) => {
                 (barSpacingUtil*(3 + 1/16)) + axesStart
             }
             height={barHeight}
-            width={
-                (totalSpent/salary) * (distanceToBudgetLine)
-            }
-            fill='#1C2640'
+            width={pushedBarWidth}
+            fill={colour}
         />
     )
 
@@ -171,7 +190,7 @@ const BudgetChart = ((props) => {
                 }}
             />
 
-            <svg className="budgetChart Chart" viewBox="0 0 500 500">
+            <svg className="budgetChart Chart" viewBox="0 0 700 500">
                 {bars}
                 {yAxes}
                 <foreignObject 
