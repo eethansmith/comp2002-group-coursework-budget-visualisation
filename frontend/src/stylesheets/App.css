@@ -47,6 +47,31 @@
   stroke-width: 0.5;
 }
 
+.salaryLabel{
+  position: absolute;
+  top: 150px;
+  left: 25px;
+  font-size: medium;
+  text-align: center;
+}
+
+.salaryInput{
+  position:absolute;
+  top: 200px;
+  left: 25px;
+  width: 125px;
+  align-self: center;
+  font-size: medium;
+}
+
+.poundSign{
+  position: absolute;
+  top: 187px;
+  left: 15px;
+  font-size: medium;
+  text-align: center;
+}
+
 .Dropdown{
   position: absolute;
   top: 125px;
@@ -55,6 +80,13 @@
   font-size: large;
   cursor: pointer;
 
+}
+
+input{
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2;
 }
 
 @media screen and (orientation: portrait) {
