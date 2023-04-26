@@ -42,6 +42,12 @@ const BudgetChart = ((props) => {
     //           for the barChart component in figma.
     const barHeight = barSpacingUtil*(7/8);
 
+    //This is the height of the input box
+    const inputBoxHeight = 25;
+
+    //This is the width of the input box
+    const inputBoxWidth = 45;
+
     // A static line that displays how much you've spent in comparison to how much you've planned to spend this month according to your salary
     const budgetLinePos = 0.7 * HEIGHTWIDTH;
 
@@ -165,54 +171,72 @@ const BudgetChart = ((props) => {
                 }}
             />
 
-            <input
-                type='text'
-                min='0'
-                max='100'
-                value={billsPercentage}
-                onChange={(e) => {
-                    allowedBills = 100 - (groceriesPercentage + otherPercentage);
-                    allowedBills = (allowedBills < 0) ? 0 : allowedBills;
-                    let result = e.target.value.replace(regex, '');
-                    result = (result > allowedBills) ? allowedBills : result;
-                    if(result === "") { result = 0; }
-                    setBills(parseInt(result))
-                }}
-            />
-
-            <input
-                type='text'
-                min='0'
-                max='100'
-                value={groceriesPercentage}
-                onChange={(e) => {
-                    allowedGroceries = 100 - (billsPercentage + otherPercentage);
-                    allowedGroceries = (allowedGroceries < 0) ? 0 : allowedGroceries;
-                    let result = e.target.value.replace(regex, '')
-                    result = (result > allowedGroceries) ? allowedGroceries : result
-                    if(result === "") { result = 0; }
-                    setGroceries(parseInt(result))
-                }}
-            />
-
-            <input
-                type='text'
-                min='0'
-                max='100'
-                value={otherPercentage}
-                onChange={(e) => {
-                    allowedOther = 100 - (groceriesPercentage + billsPercentage);
-                    allowedOther = (allowedOther < 0) ? 0 : allowedOther;
-                    let result = e.target.value.replace(regex, '')
-                    result = (result > allowedOther) ? allowedOther : result
-                    if(result === "") { result = 0; }
-                    setOther(parseInt(result))
-                }}
-            />
-
             <svg className="budgetChart Chart" viewBox="0 0 500 500">
                 {bars}
                 {yAxes}
+                <foreignObject 
+                    width={inputBoxWidth} 
+                    height={inputBoxHeight} 
+                    x={yAxis-50} 
+                    y={(barSpacingUtil*(1/16)) + axesStart + (barHeight/2) - (inputBoxHeight/2)}
+                >
+                    <input
+                        type='text'
+                        min='0'
+                        max='100'
+                        value={billsPercentage}
+                        onChange={(e) => {
+                            allowedBills = 100 - (groceriesPercentage + otherPercentage);
+                            allowedBills = (allowedBills < 0) ? 0 : allowedBills;
+                            let result = e.target.value.replace(regex, '');
+                            result = (result > allowedBills) ? allowedBills : result;
+                            if(result === "") { result = 0; }
+                            setBills(parseInt(result))
+                        }}
+                    />
+                </foreignObject>
+                <foreignObject 
+                    width={inputBoxWidth} 
+                    height={inputBoxHeight} 
+                    x={yAxis-50} 
+                    y={(barSpacingUtil*(17/16)) + axesStart + (barHeight/2) - (inputBoxHeight/2)}
+                >
+                    <input
+                        type='text'
+                        min='0'
+                        max='100'
+                        value={groceriesPercentage}
+                        onChange={(e) => {
+                            allowedGroceries = 100 - (billsPercentage + otherPercentage);
+                            allowedGroceries = (allowedGroceries < 0) ? 0 : allowedGroceries;
+                            let result = e.target.value.replace(regex, '')
+                            result = (result > allowedGroceries) ? allowedGroceries : result
+                            if(result === "") { result = 0; }
+                            setGroceries(parseInt(result))
+                        }}
+                    />
+                </foreignObject>
+                <foreignObject 
+                    width={inputBoxWidth} 
+                    height={inputBoxHeight} 
+                    x={yAxis-50} 
+                    y={(barSpacingUtil*(33/16)) + axesStart + (barHeight/2) - (inputBoxHeight/2)}
+                >
+                    <input
+                        type='text'
+                        min='0'
+                        max='100'
+                        value={otherPercentage}
+                        onChange={(e) => {
+                            allowedOther = 100 - (groceriesPercentage + billsPercentage);
+                            allowedOther = (allowedOther < 0) ? 0 : allowedOther;
+                            let result = e.target.value.replace(regex, '')
+                            result = (result > allowedOther) ? allowedOther : result
+                            if(result === "") { result = 0; }
+                            setOther(parseInt(result))
+                        }}
+                    />
+                </foreignObject>
             </svg>
         </>
     )
