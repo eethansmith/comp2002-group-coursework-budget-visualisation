@@ -4,9 +4,9 @@ import { useState } from 'react';
 const BudgetChart = ((props) => {
 
     const [salary, setSalary] = useState(2050);
-    const [billsPercentage, setBills] = useState(34);
-    const [groceriesPercentage, setGroceries] = useState(33);
-    const [otherPercentage, setOther] = useState(33);
+    const [billsPercentage, setBills] = useState(40);
+    const [groceriesPercentage, setGroceries] = useState(15);
+    const [otherPercentage, setOther] = useState(30);
     
     const HEIGHT = 500;
     const WIDTH = 900;
@@ -15,6 +15,8 @@ const BudgetChart = ((props) => {
 
     const bars = [];
     const yAxes = [];
+    const yLabels = [];
+    const yLabels2 = [];
 
     // All consts past this point should be fine tuned to make the image look better
     const axesStart = HEIGHT/10 + (HEIGHT/20)/2;
@@ -114,7 +116,7 @@ const BudgetChart = ((props) => {
         // An example makes this clearer; if you wanted to spend half your salary on groceries, but ended up spending 75% on groceries instead,
         //     proportionally this is a 150% increase so the bar would span the distance to the budget line, and then half that same distance again.
         colour = '#97CAEB';
-
+    
         if(pushedBarWidth > distanceToBudgetLine) {
             colour = '#BF6C78';
         }
@@ -122,6 +124,54 @@ const BudgetChart = ((props) => {
         if(pushedBarWidth > distanceToBudgetLine * 1.4) {
             pushedBarWidth = distanceToBudgetLine * 1.4;
         }
+
+        let barText = "";
+
+        switch(parseInt(key)) {
+            case 0 : barText = "Bills"; break;
+            case 1 : barText = "Groceries"; break;
+            case 2 : barText = "Other"; break;
+            default: barText = "ERROR";
+        }
+
+
+        yLabels.push(
+        <text
+            x="120"
+            y={(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+            textAnchor='end'
+        >
+            {barText}:
+        </text>
+        )
+
+        let roundedSpending = Math.round(spendingData[key])
+
+        yLabels2.push(
+            <>
+            <text
+                x={(budgetLinePos * 1.4) + 88}
+                y={(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+                textAnchor='end'
+            >
+                £{roundedSpending}
+            </text>
+            <text
+                x={(budgetLinePos * 1.4) + 90}
+                y={(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+                textAnchor='centre'
+            >
+                /
+            </text>
+            <text
+                x={(budgetLinePos * 1.4) + 98}
+                y={(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+                textAnchor='start'
+            >
+                £{salary * proportionsOfSalary[index]}
+            </text>
+            </>
+        )
         
         bars.push(
         <rect 
@@ -160,6 +210,45 @@ const BudgetChart = ((props) => {
         pushedBarWidth = distanceToBudgetLine * 1.4;
     }
 
+
+    yLabels.push(
+    <text
+        x="120"
+        y={(3 * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+        textAnchor='end'
+    >
+        Total:
+    </text>
+    )
+    
+    let roundedSpending = Math.round(totalSpent)
+
+    yLabels2.push(
+        <>
+            <text
+                x={(budgetLinePos * 1.4) + 88}
+                y={(3 * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+                textAnchor='end'
+            >
+                £{roundedSpending}
+            </text>
+            <text
+                x={(budgetLinePos * 1.4) + 90}
+                y={(3 * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+                textAnchor='centre'
+            >
+                /
+            </text>
+            <text
+                x={(budgetLinePos * 1.4) + 98}
+                y={(3 * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+                textAnchor='start'
+            >
+                £{salary}
+            </text>
+        </>
+    )
+
     bars.push(
         
         <rect
@@ -193,6 +282,9 @@ const BudgetChart = ((props) => {
             <svg className="budgetChart Chart" viewBox="0 0 900 500">
                 {bars}
                 {yAxes}
+                {yLabels}
+                {yLabels2}
+                <text x={budgetLinePos - 50} y={axesStart - 10}> Over-Budget </text>
                 <foreignObject 
                     width={inputBoxWidth} 
                     height={inputBoxHeight} 
