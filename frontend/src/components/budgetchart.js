@@ -9,7 +9,7 @@ const BudgetChart = ((props) => {
     const [otherPercentage, setOther] = useState(33);
     
     const HEIGHT = 500;
-    const WIDTH = 700;
+    const WIDTH = 900;
 
     const regex = /[a-z]/gi;
 
@@ -19,7 +19,6 @@ const BudgetChart = ((props) => {
     // All consts past this point should be fine tuned to make the image look better
     const axesStart = HEIGHT/10 + (HEIGHT/20)/2;
     const axesEnd = (9*HEIGHT)/10 - (HEIGHT/20)/2;
-
     
     let allowedBills = parseInt(billsPercentage);
     let allowedGroceries = parseInt(groceriesPercentage);
@@ -49,12 +48,13 @@ const BudgetChart = ((props) => {
     //This is the width of the input box
     const inputBoxWidth = 30;
 
-    // A static line that displays how much you've spent in comparison to how much you've planned to spend this month according to your salary
-    // Use HEIGHT here to indicate that it is 0.7 * HEIGHT in relation to the y Axis line
-    const budgetLinePos = 0.7 * HEIGHT;
 
     // Position of yAxis line (leftmost line that bars come from) relative to the size of the svg
-    const yAxis = 0.1 * WIDTH;
+    const yAxis = 0.2 * WIDTH;
+
+    // A static line that displays how much you've spent in comparison to how much you've planned to spend this month according to your salary
+    // Use HEIGHT here to indicate that it is 0.7 * HEIGHT in relation to the y Axis line
+    const budgetLinePos = (0.7 * HEIGHT) + yAxis;
 
     // Initial values for the budgeting of the categories as a proportion of the inputted salary
     const proportionsOfSalary = [0.4, 0.15, 0.3];
@@ -119,8 +119,8 @@ const BudgetChart = ((props) => {
             colour = '#BF6C78';
         }
 
-        if(pushedBarWidth > distanceToBudgetLine * 1.5) {
-            pushedBarWidth = distanceToBudgetLine * 1.5;
+        if(pushedBarWidth > distanceToBudgetLine * 1.4) {
+            pushedBarWidth = distanceToBudgetLine * 1.4;
         }
         
         bars.push(
@@ -156,8 +156,8 @@ const BudgetChart = ((props) => {
         colour = '#7D2B54';
     }
 
-    if(pushedBarWidth > distanceToBudgetLine * 1.5) {
-        pushedBarWidth = distanceToBudgetLine * 1.5;
+    if(pushedBarWidth > distanceToBudgetLine * 1.4) {
+        pushedBarWidth = distanceToBudgetLine * 1.4;
     }
 
     bars.push(
@@ -190,7 +190,7 @@ const BudgetChart = ((props) => {
                 }}
             />
 
-            <svg className="budgetChart Chart" viewBox="0 0 700 500">
+            <svg className="budgetChart Chart" viewBox="0 0 900 500">
                 {bars}
                 {yAxes}
                 <foreignObject 
