@@ -49,6 +49,11 @@
     height: 75vw;
     margin-top: calc(50vh - (75vw / 2) - 100px);
   }
+
+  .budgetChart{
+    width: 100vw;
+    height:75vw;
+  }
   
 }
 
@@ -57,5 +62,10 @@
     width: 70vh;
     height: 70vh;
     margin-top: calc(50vh - (70vh / 2) - 100px);
+  }
+
+  .budgetChart{
+    width: 100vh;
+    height:70vh;
   }
 }
