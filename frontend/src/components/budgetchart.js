@@ -52,7 +52,7 @@ const BudgetChart = ((props) => {
 
 
     // Position of yAxis line (leftmost line that bars come from) relative to the size of the svg
-    const yAxis = 0.2 * WIDTH;
+    const yAxis = 0.175 * WIDTH;
 
     // A static line that displays how much you've spent in comparison to how much you've planned to spend this month according to your salary
     // Use HEIGHT here to indicate that it is 0.7 * HEIGHT in relation to the y Axis line
@@ -137,7 +137,7 @@ const BudgetChart = ((props) => {
 
         yLabels.push(
         <text
-            x="120"
+            x="100"
             y={(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
             textAnchor='end'
         >
@@ -213,7 +213,7 @@ const BudgetChart = ((props) => {
 
     yLabels.push(
     <text
-        x="120"
+        x="140"
         y={(3 * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
         textAnchor='end'
     >
