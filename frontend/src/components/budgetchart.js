@@ -97,7 +97,8 @@ const BudgetChart = ((props) => {
             y2={axesEnd}
             stroke="black"
             strokeWidth="1"
-            opacity="0.5"
+            strokeDasharray={12}
+            opacity="0.8"
             className="budgetLine"
         />
     )
@@ -136,13 +137,21 @@ const BudgetChart = ((props) => {
 
 
         yLabels.push(
+        <>
         <text
-            x="100"
+            x="95"
             y={(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
             textAnchor='end'
         >
             {barText}:
         </text>
+        <text x =  {108 + inputBoxWidth}
+            y = {(index * barSpacingUtil) + axesStart + (barHeight/2) + inputBoxHeight/2}
+            fontSize = "15"
+        >
+            %
+        </text>
+        </>
         )
 
         let roundedSpending = Math.round(spendingData[key])
@@ -266,6 +275,7 @@ const BudgetChart = ((props) => {
     return (
         <>
             <input
+                className="salaryInput"
                 type='text'
                 min='0'
                 value={salary}
@@ -277,8 +287,13 @@ const BudgetChart = ((props) => {
                     } 
                     setSalary(parseInt(result));
                 }}
-            />
-
+            ></input>
+            <p className='salaryLabel'>
+                Monthly Income:
+            </p>
+            <p className='poundSign'>
+                £
+            </p>
             <svg className="budgetChart Chart" viewBox="0 0 900 500">
                 {bars}
                 {yAxes}
@@ -288,7 +303,7 @@ const BudgetChart = ((props) => {
                 <foreignObject 
                     width={inputBoxWidth} 
                     height={inputBoxHeight} 
-                    x={yAxis-50} 
+                    x={yAxis-55} 
                     y={(barSpacingUtil*(1/16)) + axesStart + (barHeight/2) - (inputBoxHeight/2)}
                 >
                     <input
@@ -309,7 +324,7 @@ const BudgetChart = ((props) => {
                 <foreignObject 
                     width={inputBoxWidth} 
                     height={inputBoxHeight} 
-                    x={yAxis-50} 
+                    x={yAxis-55} 
                     y={(barSpacingUtil*(17/16)) + axesStart + (barHeight/2) - (inputBoxHeight/2)}
                 >
                     <input
@@ -330,7 +345,7 @@ const BudgetChart = ((props) => {
                 <foreignObject 
                     width={inputBoxWidth} 
                     height={inputBoxHeight} 
-                    x={yAxis-50} 
+                    x={yAxis-55} 
                     y={(barSpacingUtil*(33/16)) + axesStart + (barHeight/2) - (inputBoxHeight/2)}
                 >
                     <input
