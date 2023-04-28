@@ -71,6 +71,7 @@ const App = () => {
   }
 
   const fetchCategoryData = async ( timeframe, timestamp) => {
+    setIsLoading(true);
     let safeDataKey = dataKey.replace(/ /g, "%20");
     const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe + "/" + safeDataKey);
     if(!response.ok){
@@ -78,6 +79,7 @@ const App = () => {
       return setCategoryData({});
     }
     const data = await response.json();
+    setIsLoading(false);
     return setCategoryData(data);
   }
 
@@ -95,7 +97,7 @@ const App = () => {
 
   useEffect(() => {
     fetchCategoryData(isDaily ? "daily" : "monthly", timestamp);
-  }, [dataKey])
+  }, [dataKey, modalIsOpen])
   
   return (
     <>
@@ -103,9 +105,9 @@ const App = () => {
       
       <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
       {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
-      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor}/>) : <></>}
+      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> : <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor}/>) : <></>}
       {(currentPage === 3) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <BudgetChart data={data}></BudgetChart> ) : <></>}
-      <Modal className={"Modal"} isOpen={modalIsOpen}><ModalContents categoryData={categoryData} setModalIsOpen={setModalIsOpen} dataKey={dataKey} spent={data[dataKey]} percentage = {data[dataKey]/totalSpent(data) * 100} color={color}/></Modal>
+      <Modal className={"Modal"} isOpen={modalIsOpen}>{(isLoading === true)? <BarLoader className='Loader'></BarLoader> : <ModalContents categoryData={categoryData} setModalIsOpen={setModalIsOpen} dataKey={dataKey} spent={data[dataKey]} percentage = {data[dataKey]/totalSpent(data) * 100} color={color}/>}</Modal>
     </>
   );
 }
