@@ -94,6 +94,125 @@ input{
   border-bottom: 2;
 }
 
+@keyframes slideUp{
+  from{top: 100vh;}
+  to{top: 25vh;}
+}
+
+.Modal{
+  position: absolute;
+  top: 25vh;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: lightgrey;
+  animation-name: slideUp;
+  animation-duration: 0.5s;
+}
+
+.Scrollable{
+  max-height: calc(75vh - 175px);
+  overflow-y: scroll;
+  margin: 5px;
+}
+
+.Row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 25px;
+  margin-top: 0px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgb(236, 236, 236) ;
+}
+
+.Date{
+  margin-left: 25px;
+  margin-bottom: 5px;
+}
+
+.Close{
+  /*Close button in the top left*/
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  background-color: transparent;
+  outline: none;
+  border:none;
+  cursor: pointer;
+}
+
+.Stats{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-left: 25px;
+  margin-top: 0px;
+}
+
+.Stat{
+  margin-top: 0px;
+}
+
+.Percent{
+  margin-left: 10px;
+}
+
+.TitleAndSquare{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: baseline;
+  margin-bottom:0px;
+}
+
+.ColorSquare{
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
+
+h3{
+  font-size: 25px;
+  text-align: left;
+  margin-left: 25px;
+  margin-bottom: 0px;
+}
+
+.Time{
+  margin-top: 0px;
+}
+
+.Merchant{
+  margin-bottom: 0px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 @media screen and (orientation: portrait) {
 
   .ringChart{

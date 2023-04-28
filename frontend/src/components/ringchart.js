@@ -57,6 +57,7 @@ const RingChart = (props) => {
                 <path 
                     onMouseOver={() => setCurrentSection(key)} 
                     onMouseLeave={() => setCurrentSection("default")} 
+                    onMouseDown={() => {props.setModalIsOpen(true); props.setDataKey(key); props.setColor(colorPallete[index])}}
                     key={key} className="Section" 
                     d={getPath(dataAsPercentage[key])} 
                     stroke={colorPallete[index]} 

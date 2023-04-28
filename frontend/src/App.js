@@ -4,8 +4,10 @@ import Chart from './components/chart';
 import BudgetChart from './components/budgetchart';
 import Header from './components/header';
 import DropDown from './components/dropdown';
-import { IoSwapHorizontalOutline } from 'react-icons/io5'
+import ModalContents from './components/modalcontents';
+import { IoSwapHorizontalOutline } from 'react-icons/io5';
 import BarLoader from "react-spinners/BarLoader";
+import Modal from 'react-modal';
 
 
 const App = () => {
@@ -15,7 +17,11 @@ const App = () => {
   const [isDaily, setDaily] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState({});
+  const [categoryData, setCategoryData] = useState({});
   const [timestamp, setTimestamp] = useState(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [dataKey, setDataKey] = useState("");
+  const [color, setColor] = useState("#ffffff");
 
 
   // Get the accountID from the URL
@@ -26,6 +32,10 @@ const App = () => {
   const updateDaily = (bool) => {
     setDaily(bool);
   }
+
+  function totalSpent(data) {
+    return (Math.round(Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue, 0) * 100) / 100).toFixed(2);
+}
 
   // Fetch account transactions from backend
   // Requires accountID and timeframe
@@ -60,6 +70,17 @@ const App = () => {
     return setData(data);
   }
 
+  const fetchCategoryData = async ( timeframe, timestamp) => {
+    let safeDataKey = dataKey.replace(/ /g, "%20");
+    const response = await fetch("http://localhost:4000/api/transactions/" + accountID + "/"  + timestamp + "/" + timeframe + "/" + safeDataKey);
+    if(!response.ok){
+      console.log("ERROR")
+      return setCategoryData({});
+    }
+    const data = await response.json();
+    return setCategoryData(data);
+  }
+
   // Fetch data on swap of isDaily
   useEffect(() => {
     // Make ringhchart the default
@@ -71,6 +92,10 @@ const App = () => {
       fetchBudgetData(isDaily ? "daily" : "monthly", timestamp);
     }
   }, [isDaily, timestamp, currentPage])
+
+  useEffect(() => {
+    fetchCategoryData(isDaily ? "daily" : "monthly", timestamp);
+  }, [dataKey])
   
   return (
     <>
@@ -78,8 +103,9 @@ const App = () => {
       
       <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
       {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
-      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily}/>) : <></>}
+      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> :<Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor}/>) : <></>}
       {(currentPage === 3) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <BudgetChart data={data}></BudgetChart> ) : <></>}
+      <Modal className={"Modal"} isOpen={modalIsOpen}><ModalContents categoryData={categoryData} setModalIsOpen={setModalIsOpen} dataKey={dataKey} spent={data[dataKey]} percentage = {data[dataKey]/totalSpent(data) * 100} color={color}/></Modal>
     </>
   );
 }
