@@ -306,7 +306,7 @@ const BudgetChart = ((props) => {
                 onChange={(e) => {
                     let result = e.target.value.replace(regex, '')
                     result = result < 0 ? 0 : result
-                    if(result === NaN || result === "") {
+                    if(isNaN(result)|| result === "") {
                         result = 0;
                     } 
                     setSalary(parseInt(result));
