@@ -5,6 +5,7 @@ import {AiFillCheckCircle, AiFillCloseCircle} from 'react-icons/ai';
 const BudgetChart = ((props) => {
 
     const [salary, setSalary] = useState(2050);
+
     const [billsPercentage, setBills] = useState(40);
     const [groceriesPercentage, setGroceries] = useState(30);
     const [otherPercentage, setOther] = useState(30);
@@ -296,6 +297,12 @@ const BudgetChart = ((props) => {
         />
     )
 
+    let showWarning = 'hidden';
+
+    if((billsPercentage + groceriesPercentage + otherPercentage) < 100) {
+        showWarning = '';
+    }
+
     return (
         <>
             <input
@@ -323,6 +330,14 @@ const BudgetChart = ((props) => {
                 {yAxes}
                 {yLabels}
                 {yLabels2}
+                <text
+                    x={yAxis}
+                    y={axesStart - 10}
+                    fill='red'
+                    visibility={showWarning}
+                > 
+                    Warning: {}% of salary not budgeted. 
+                </text>
                 <text x={budgetLinePos - 50} y={axesStart - 10}> Over-Budget </text>
                 <foreignObject 
                     width={inputBoxWidth} 
