@@ -6,7 +6,7 @@ const BudgetChart = ((props) => {
 
     const [salary, setSalary] = useState(2050);
     const [billsPercentage, setBills] = useState(40);
-    const [groceriesPercentage, setGroceries] = useState(15);
+    const [groceriesPercentage, setGroceries] = useState(30);
     const [otherPercentage, setOther] = useState(30);
     
     const HEIGHT = 500;
@@ -135,7 +135,6 @@ const BudgetChart = ((props) => {
             case 2 : barText = "Other"; break;
             default: barText = "ERROR";
         }
-
 
         yLabels.push(
         <>
