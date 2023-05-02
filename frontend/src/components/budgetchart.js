@@ -298,8 +298,9 @@ const BudgetChart = ((props) => {
     )
 
     let showWarning = 'hidden';
+    const percentNotBudgeted = 100 - (billsPercentage + groceriesPercentage + otherPercentage);
 
-    if((billsPercentage + groceriesPercentage + otherPercentage) < 100) {
+    if(percentNotBudgeted > 0) {
         showWarning = '';
     }
 
@@ -333,10 +334,10 @@ const BudgetChart = ((props) => {
                 <text
                     x={yAxis}
                     y={axesStart - 10}
-                    fill='red'
+                    fill='#BF6C78'
                     visibility={showWarning}
                 > 
-                    Warning: {}% of salary not budgeted. 
+                    Warning: {percentNotBudgeted}% of salary not budgeted. 
                 </text>
                 <text x={budgetLinePos - 50} y={axesStart - 10}> Over-Budget </text>
                 <foreignObject 
