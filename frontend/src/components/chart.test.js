@@ -8,6 +8,6 @@ test('Renders Ringchart', async () => {
   });
 
   test('Renders Barchart', async () => {
-    const { container} = render(<Chart data={{}} isRingChart={false} isDaily={true} />);
-    expect(container.firstChild).toHaveClass('barChart');
+    const { container} = render(<Chart data={{'grocerries': 10}} isRingChart={false} isDaily={true}  />);
+    expect(container.firstChild).toHaveClass('BarChartParent');
   });

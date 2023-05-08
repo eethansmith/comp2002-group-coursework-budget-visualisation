@@ -335,6 +335,7 @@ const BudgetChart = ((props) => {
     return (
         <>
             <input
+                data-testid="salary-input"
                 className="salaryInput"
                 type='text'
                 min='0'

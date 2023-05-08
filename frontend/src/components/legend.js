@@ -48,7 +48,7 @@ const Legend = (props) => {
                 y={35}
                 textAnchor="middle"
                 fontSize="35"
-                text-decoration="underline"
+                textDecoration="underline"
             >
                 Legend
             </text>

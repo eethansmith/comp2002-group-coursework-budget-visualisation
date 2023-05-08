@@ -37,6 +37,7 @@ const BarChart = (props) => {
                 } 
                 y={HEIGHTWIDTH*(1 - 0.15) - heightedData[key]*0.7} 
                 fill={colorPallete[index]} 
+                data-testid= "bar"
             />
         )
         xLabels.push(
@@ -46,6 +47,7 @@ const BarChart = (props) => {
                 y={HEIGHTWIDTH*(1 - 0.05)}
                 textAnchor="middle"
                 fontSize="20"
+                data-testid = "x-label"
             >
                 {index + 1}
             </text>
