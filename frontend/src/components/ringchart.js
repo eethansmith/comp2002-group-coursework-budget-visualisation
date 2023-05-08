@@ -7,6 +7,21 @@ const RingChart = (props) => {
 
     const[currentSection, setCurrentSection] = useState("default");
 
+    const getMonthAndYear = (timestamp) =>{
+        let date = new Date(timestamp * 1);
+
+        return date.toLocaleDateString('default',
+            {month: 'short', year: 'numeric'});
+
+    }   
+
+    const getDayAndMonth = (timestamp) =>{
+        let date = new Date(timestamp * 1);
+        return date.toLocaleDateString('default',
+            {day: 'numeric', month:'short'});
+    }
+
+
     let dataAsPercentage = makeDataPercentage(props.data);
 
     let numSegments = 0;
@@ -24,7 +39,7 @@ const RingChart = (props) => {
             £{(Math.round(props.data[currentSection] * 100) / 100).toFixed(2)} 
         </text>,
 
-        <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
+        <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? getDayAndMonth(props.timestamp) : getMonthAndYear(props.timestamp)} </text>
     ];
 
     const defaultText = [
@@ -34,7 +49,7 @@ const RingChart = (props) => {
             £{totalSpent(props.data)} 
         </text>,
         
-        <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? "Today" : "This Month"} </text>
+        <text key="text3" fontSize="0.15" textAnchor="middle" y="0.3"> {props.isDaily ? getDayAndMonth(props.timestamp) : getMonthAndYear(props.timestamp) } </text>
     ];
 
     if(numSegments === 1) {

@@ -105,7 +105,7 @@ const App = () => {
       
       <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
       {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
-      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> : <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor}/>) : <></>}
+      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> : <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor} timestamp={timestamp}/>) : <></>}
       {(currentPage === 3) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <BudgetChart data={data}></BudgetChart> ) : <></>}
       <Modal className={"Modal"} isOpen={modalIsOpen}>{(isLoading === true)? <BarLoader className='Loader'></BarLoader> : <ModalContents categoryData={categoryData} setModalIsOpen={setModalIsOpen} dataKey={dataKey} spent={data[dataKey]} percentage = {data[dataKey]/totalSpent(data) * 100} color={color}/>}</Modal>
     </>
