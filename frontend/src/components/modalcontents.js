@@ -34,7 +34,7 @@ const ModalContents = (props) => {
                 <p className='ColorSquare'><BsFillSquareFill color={props.color}></BsFillSquareFill></p>
             </div>
             <div className='Stats'>
-                <p className='Stat'>Spent: £{props.spent} </p>
+                <p className='Stat'>Spent: £{props.spent.toFixed(2)} </p>
                 <p className='Stat Percent'>Percentage: {Math.round(props.percentage)}%</p>
             </div>
             <button className="Close" onClick={handleClick}> <IoClose></IoClose></button>
