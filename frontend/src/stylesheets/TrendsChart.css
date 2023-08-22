@@ -1,0 +1,112 @@
+.title {
+    font-size: 1.4em;
+    font-weight: 300;
+  }
+  
+  .bar-group .name-label {
+    text-anchor: end;
+    font-weight: 300;
+    font-size: 1em;
+    fill: #333;
+  }
+  
+  .bar-group .value-label {
+    text-anchor: end;
+    fill: #fff;
+    font-weight: 900;
+    font-size: 0.7em;
+  }
+  
+  .container .bar-group {
+    transition: opacity 0.3s;
+  }
+  
+  /* Fade bars when the chart is hovered */
+  .container:hover .bar-group {
+    opacity: 0.3;
+  }
+  
+  /* But don't fade the hovered bar... */
+  .container .bar-group:hover {
+    opacity: 1;
+  }
+  
+  .container .bar-group:hover .name-label {
+    font-weight: 400;
+  }
+  
+  .container .bar-group:hover .value-label {
+    font-size: 0.8em;
+  }
+  
+  .bar-chart {
+    transform: rotate(-0.25turn);
+  }
+
+  .trends-y-axis-label {
+    padding: 20px;
+  }
+
+  .trends-chart {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .trends-observables {
+    width: 400px;
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .chart-parent {
+    width: 800px;
+    padding: 10px;
+  }
+
+  .trends-sub-title{
+    font-size: 1.2rem;
+    padding-top: 20px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .trends-chart {
+      justify-content: unset;
+    }
+  }
+
+  .spending-card {
+    padding: 10px;
+    background-color: rgba(0, 191, 255, 0.374);
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 10px 0px rgba(0,0,0,.15);
+    width: 250px;
+  }
+
+  .spending-category-container {
+    padding-top: 40px;
+  }
+
+  .trends-switch-button{
+    background-color: #46a5495e; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 40px;
+    font-size: 1.2rem;
+    margin-left: 5px;
+    border-radius: 10px;
+  }
+
+  .active {
+    background-color: #54d559;
+    font-weight: bold;
+  }

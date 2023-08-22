@@ -13,7 +13,8 @@ const Header = (props)=> {
             <img className="logo" alt='Capital One Logo' src={logo}/>
             <button id={"daily"} className={(props.currentPage === 1) ? 'buttons selected' : 'buttons'} onClick={() => {handleClick(true, 1)}}> Daily View </button>
             <button id={"monthly"} className={(props.currentPage === 2) ? 'buttons selected' : 'buttons'} onClick={() => {handleClick(false, 2)}}> Monthly View </button>
-            <button id={"budget view"} className={(props.currentPage === 3) ? 'buttons selected end' : 'buttons end'} onClick={() => {handleClick(false, 3)}}> Budget View </button>
+            <button id={"budget view"} className={(props.currentPage === 3) ? 'buttons selected' : 'buttons'} onClick={() => {handleClick(false, 3)}}> Budget View </button>
+            <button id={"trends"} className={(props.currentPage === 4) ? 'buttons selected end' : 'buttons end'} onClick={() => {handleClick(false, 4)}}> Trends </button>
         </div>
     );
 };
