@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './stylesheets/App.css';
 import Chart from './components/chart';
 import BudgetChart from './components/budgetchart';
+import TrendsChart from './components/trendschart';
 import Header from './components/header';
 import DropDown from './components/dropdown';
 import ModalContents from './components/modalcontents';
@@ -18,6 +19,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState({});
   const [categoryData, setCategoryData] = useState({});
+  const [yearTrendData, setYearTrendsData] = useState({})
   const [timestamp, setTimestamp] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [dataKey, setDataKey] = useState("");
@@ -83,12 +85,28 @@ const App = () => {
     return setCategoryData(data);
   }
 
+  const fetchThisYearsTrendsData = async () => {
+    setIsLoading(true);
+    const response =  await fetch(`http://localhost:4000/api/trends/${accountID}/`);
+    if(!response.ok) {
+      console.log("ERROR")
+      return setYearTrendsData({});
+    };
+      const data = await response.json();
+      setIsLoading(false);
+      return setYearTrendsData(data);
+  }
+  
+  
+
   // Fetch data on swap of isDaily
   useEffect(() => {
     // Make ringhchart the default
     setIsRingChart(true);
     // Fetch the data
-    if(currentPage !== 3){
+    if(currentPage === 4) {
+      fetchThisYearsTrendsData()
+    }else if(currentPage !== 3){
       fetchDailyMonthlyData(isDaily ? "daily" : "monthly", timestamp);
     }else{
       fetchBudgetData(isDaily ? "daily" : "monthly", timestamp);
@@ -103,10 +121,11 @@ const App = () => {
     <>
       <Header currentPage={currentPage} setCurrentPage={setCurrentPage} updateDaily={updateDaily} isDaily={isDaily}></Header>
       
-      <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>
-      {(currentPage!== 3) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
-      {(currentPage!== 3) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> : <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor} timestamp={timestamp}/>) : <></>}
-      {(currentPage === 3) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <BudgetChart data={data}></BudgetChart> ) : <></>}
+      {currentPage !== 4 && <DropDown setTimestamp={setTimestamp} isDaily={isDaily}></DropDown>}
+      {(currentPage!== 3 && currentPage !== 4) ? ((JSON.stringify(data) === '{}') ? <></> : <button className="Swap" onClick={() => {setIsRingChart(!isRingChart)}}><IoSwapHorizontalOutline /></button>) : <></>}
+      {(currentPage!== 3 && currentPage !== 4) ? ((isLoading === true)? <BarLoader className='Loader'></BarLoader> : <Chart isRingChart={isRingChart} data={data} isDaily={isDaily} setModalIsOpen={setModalIsOpen} setDataKey={setDataKey} setColor={setColor} timestamp={timestamp}/>) : <></>}
+      {(currentPage === 3 && currentPage !== 4) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <BudgetChart data={data}></BudgetChart> ) : <></>}
+      {(currentPage === 4 && currentPage!== 3) ? ((isLoading === true) ? <BarLoader className='Loader'></BarLoader> : <TrendsChart yearTrendData={yearTrendData} /> ) : <></>}
       <Modal className={"Modal"} isOpen={modalIsOpen}>{(isLoading === true)? <BarLoader className='Loader'></BarLoader> : <ModalContents categoryData={categoryData} setModalIsOpen={setModalIsOpen} dataKey={dataKey} spent={data[dataKey]} percentage = {data[dataKey]/totalSpent(data) * 100} color={color}/>}</Modal>
     </>
   );

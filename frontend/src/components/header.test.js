@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Header from './Header';
+import Header from './header';
 
 describe('Header component', () => {
   const mockProps = {
